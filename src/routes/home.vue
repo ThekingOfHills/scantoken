@@ -133,7 +133,7 @@
     }
 
     .vue-home .chart_banner {
-        background-color: #24537A;
+        background-color: #5F1CC8;
         padding: 20px;
         height: 225px;
     }
@@ -366,7 +366,7 @@
                     },
                     plotOptions: {
                         series: {
-                            color:'#301E86',
+                            color:'#5F1CC8',
                             animation: {
                                 duration: 0
                             },
