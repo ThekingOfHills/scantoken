@@ -1,0 +1,26 @@
+**/build/
+!/frontend/build
+**/out/
+
+.idea
+*.iml
+geth.sh
+**/.idea/
+
+docs/build
+
+# OS X
+.DS_Store
+
+# Node
+**/node_modules/
+**/dist/
+
+# Log
+*.log
+
+# vscode
+**/.vscode/
+
+# temp files
+temp
