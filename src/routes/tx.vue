@@ -55,7 +55,7 @@
                 </tr>
                 <tr>
                     <td>TimeStamp:</td>
-                    <td>{{ timeConversion(Date.now() - tx.timestamp) }} ago ({{ new Date(tx.timestamp).toString() }} | {{ tx.timestamp }})
+                    <td>{{ timeConversion(Date.now() - tx.timestamp) }} ago ({{ new Date(tx.timestamp).toUTCString()}})
                     </td>
                 </tr>
                 <tr>

@@ -366,7 +366,7 @@
                     },
                     plotOptions: {
                         series: {
-                            color:'#24537A',
+                            color:'#301E86',
                             animation: {
                                 duration: 0
                             },

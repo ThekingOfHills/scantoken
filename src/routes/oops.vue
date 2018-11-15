@@ -1,11 +1,10 @@
 <style>
     .vue-oops .image {
         height: 400px;
-        background: url(/static/img/oops.jpg) center no-repeat;
     }
 
     .vue-oops .keyword {
-        font-size: 44px;
+        font-size: 25px;
         overflow-wrap: break-word;
     }
 </style>
