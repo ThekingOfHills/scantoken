@@ -392,7 +392,9 @@
                 fragApi: this.$route.params.api ? "/" + this.$route.params.api : "",
                 market: null,
                 msVmReady: Date.now(),
-                txs: []
+                txs: [],
+                timerB: null,
+                timerT: null
             };
         },
         methods: {
@@ -411,8 +413,16 @@
             }
         },
         mounted() {
-            api.getBlock({type: "latest"}, o => this.blocks = o);
-            api.getTx({type: "latest"}, o => this.txs = o);
+            this.timerB = setInterval(() => {
+                 this.msVmReady = Date.now();
+                 api.getBlock({type: "latest"}, o => this.blocks = o);
+            }, 1000);
+
+             this.timerT = setInterval(() => {
+                 api.getTx({type: "latest"}, o => this.txs = o);
+            }, 5000);
+
+
             api.getMarketCap(o => this.market = o);
 
             api.getTx("cnt_static", o => {
@@ -432,6 +442,10 @@
                     require("highcharts").chart(div, this.chartConfig);
                 }
             });
+        },
+        distroyed: function () {
+        　　clearInterval(this.timerB);
+        　　clearInterval(this.timerT);
         }
     };
 </script>

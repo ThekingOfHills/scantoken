@@ -141,8 +141,9 @@ function timeConversion(millisec) {
         hours = (millisec / (1000 * 60 * 60)).toFixed(0),
         days = (millisec / (1000 * 60 * 60 * 24)).toFixed(0),
         years = (millisec / (1000 * 60 * 60 * 24 * 365)).toFixed(0);
-
-    if (seconds < 60)
+    if(seconds<1)
+         return 0 + " Sec";
+    else if (seconds < 60)
         return seconds + " Sec";
     else if (minutes < 60)
         return minutes + " Min";
