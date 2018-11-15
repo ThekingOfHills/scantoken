@@ -418,6 +418,7 @@
                  api.getBlock({type: "latest"}, o => this.blocks = o);
             }, 1000);
 
+             api.getTx({type: "latest"}, o => this.txs = o);
              this.timerT = setInterval(() => {
                  api.getTx({type: "latest"}, o => this.txs = o);
             }, 5000);
