@@ -1,42 +1,17 @@
-<style>
-    .vue-txs .tip a {
-        color: rgb(76, 32, 133);
-    }
 
-    .vue-txs .info-and-pagination .info a {
-        color: inherit;
-    }
-
-    .vue-txs td,
-    .vue-txs th {
-        border-top-color: #ddd;
-    }
-
-    .vue-txs .fail {
-        background: url(../../static/img/warning_icon.png)no-repeat 0 10px;
-        padding-left: 28px;
-    }
-
-    .vue-txs .fail a {
-        display: inline-block;
-        max-width: 142px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-</style>
 <template>
     <!-- https://etherscan.io/txs -->
-    <div class=vue-txs>
-        <vue-bread v-bind:arr=breadcrumb title=Transactions></vue-bread>
+    <div class="vue-txs">
+        <vue-bread  :arr=breadcrumb title=Transactions></vue-bread>
 
         <div class="container mt20">
             <div class="align-items-center info-and-pagination mt20 row">
                 <div class="col info">{{ totalTxs }} transactions found (showing the last {{ maxDisplayCnt }} records)</div>
-                <vue-pagination class=col-auto v-bind:current=currentPage v-bind:total=totalPage v-on:first=onFirst v-on:last=onLast v-on:next=onNext
+                <vue-pagination class=col-auto  :current=currentPage  :total=totalPage v-on:first=onFirst v-on:last=onLast v-on:next=onNext
                     v-on:prev=onPrev v-on:to=onTo></vue-pagination>
             </div>
-
-            <table class="mt20 table">
+            <div class="scroll">
+                 <table class="mt20 table table-scroll">
                 <tr>
                     <th>TxHash</th>
                     <th>Block</th>
@@ -48,16 +23,16 @@
                     <th class=text-right>TxFee</th>
                 </tr>
 
-                <tr v-for="o in arr">
+                <tr v-for="(o,index) in arr" :key="index">
                     <td v-if="o.status == 0" class=fail>
-                        <router-link v-bind:to='fragApi + "/tx/" + o.hash'>{{ o.hash }}</router-link>
+                        <router-link  :to='fragApi + "/tx/" + o.hash'>{{ o.hash }}</router-link>
                     </td>
                     <td class=tdxxxwddd v-if="o.status != 0">
-                        <router-link v-bind:to='fragApi + "/tx/" + o.hash'>{{ o.hash }}</router-link>
+                        <router-link  :to='fragApi + "/tx/" + o.hash'>{{ o.hash }}</router-link>
                     </td>
 
                     <td>
-                        <router-link v-bind:to='fragApi + "/block/" + o.block.height'>{{ o.block.height }}</router-link>
+                        <router-link  :to='fragApi + "/block/" + o.block.height'>{{ o.block.height }}</router-link>
                     </td>
                     <!--
                     <td>
@@ -65,9 +40,9 @@
                             <span> pending </span>
                         </template>
                         <template v-else>
-                            <router-link v-if=o.block v-bind:to='fragApi + "/block/" + o.block.height'>{{o.block.height}}</router-link>
+                            <router-link v-if=o.block  :to='fragApi + "/block/" + o.block.height'>{{o.block.height}}</router-link>
                         </template>
-                         <router-link v-bind:to='fragApi + "/block/" + o.block.height'>{{ o.block.height }}</router-link>
+                         <router-link  :to='fragApi + "/block/" + o.block.height'>{{ o.block.height }}</router-link>
                     </td>
                     -->
                     <td class=time>
@@ -75,20 +50,22 @@
                         <div>{{ new Date(o.timestamp).toString() }} | {{ o.timestamp }}</div>
                     </td>
                     <td class=tdxxxwddd>
-                        <router-link v-bind:to='fragApi + "/address/" + o.from.hash'>{{ o.from.hash }}</router-link>
+                        <router-link  :to='fragApi + "/address/" + o.from.hash'>{{ o.from.hash }}</router-link>
                     </td>
                     <td>
                         <span class="fa fa-arrow-right" aria-hidden=true></span>
                     </td>
                     <td class=tdxxxwddd>
-                        <router-link v-bind:to='fragApi + "/address/" + o.to.hash'>{{ o.to.hash }}</router-link>
+                        <router-link  :to='fragApi + "/address/" + o.to.hash'>{{ o.to.hash }}</router-link>
                     </td>
                     <td class=text-right>{{ easyNumber(o.value/1000000000000000000) }} Tch</td>
                     <td class=text-right>{{ toWei(o.txFee) }}</td>
                 </tr>
             </table>
+            </div>
+           
 
-            <vue-pagination v-bind:current=currentPage right=1 v-bind:total=totalPage v-on:first=onFirst v-on:last=onLast v-on:next=onNext
+            <vue-pagination  :current=currentPage right=1  :total=totalPage v-on:first=onFirst v-on:last=onLast v-on:next=onNext
                 v-on:prev=onPrev v-on:to=onTo></vue-pagination>
         </div>
     </div>
@@ -182,3 +159,35 @@
         }
     };
 </script>
+<style>
+    .vue-txs .tip a {
+        color: rgb(76, 32, 133);
+    }
+
+    .vue-txs .info-and-pagination .info a {
+        color: inherit;
+    }
+
+    .vue-txs td,
+    .vue-txs th {
+        border-top-color: #ddd;
+    }
+
+    .vue-txs .fail {
+        background: url(../../static/img/warning_icon.png)no-repeat 0 10px;
+        padding-left: 28px;
+    }
+
+    .vue-txs .fail a {
+        display: inline-block;
+        max-width: 142px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .vue-txs .scroll {
+       width: 100%;
+    }
+    .vue-txs .scroll  .table-scroll{
+        overflow-x: scroll;
+    }
+</style>

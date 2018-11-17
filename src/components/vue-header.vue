@@ -1,64 +1,4 @@
-<style>
-    .vue-header a {
-        color: inherit;
-    }
 
-    .vue-header .dev-version {
-        color: #2a88ff;
-        left: -15px;
-        padding: 5px;
-        position: relative;
-        top: 10px;
-    }
-
-    .vue-header .btn-group-toggle {
-        margin-left: 20px;
-    }
-
-    .vue-header .btn-group-toggle label {
-        padding: 0 10px;
-    }
-
-    .vue-header .visibility-hidden {
-        visibility: hidden;
-    }
-
-    .btn-u {
-        background: #3498db;
-        border: 0;
-        color: #fff;
-        cursor: pointer;
-        white-space: nowrap;
-    }
-
-    @media (min-width: 992px) {
-        .vue-header .navbar-nav>li>a {
-            border-bottom: 2px solid transparent;
-        }
-
-        .vue-header .navbar-nav>li>a:hover,
-        .vue-header .navbar-nav>li.active>a,
-        .vue-header .navbar-nav>li.show>a {
-            border-bottom-color: #3498db;
-        }
-
-        .vue-header.navbar.navbar-default .navbar-nav>li>a {
-            background-color: initial;
-        }
-    }
-
-    @media (max-width: 991px) {
-        .vue-header .form-inline {
-            align-items: center;
-            display: flex;
-        }
-
-        .vue-header .form-inline input {
-            flex: 1;
-            margin: 0 10px 0;
-        }
-    }
-</style>
 <template>
     <nav class="navbar navbar-expand-lg navbar-light vue-header" style="background-color: #FFFFFF;border-bottom: solid 2px #eee">
         <div class=container>
@@ -102,15 +42,9 @@
                     -->
                 </ul>
                 <form class=form-inline v-on:submit.prevent=onSubmit>
-                    <div style="display: inline; height: 31px;">
-                     <input class="form-control mr-sm-2" v-model=search maxlength="66" style="width: 350px; height: 31px;
-                      font-size: inherit; padding: 1px;margin-top: -3px;"
-                           type=search placeholder="Search by Address / Txhash / Block " autocomplete="off">
-                     <span style="display: inline;">
-                         <button class="btn-u" type="submit"
-                                  style="height: 31px; width: 41px;
-                                 margin-left: -13px;">GO</button>
-                     </span>
+                    <div style="display: inline; height: 31px;" class="clearfix">
+                     <input class="form-control mr-sm-2 search-input" v-model="search" maxlength="66" placeholder="Search by Address / Txhash / Block " autocomplete="off">
+                     <button class="btn-u" type="submit" >GO</button>
                     </div>
                 </form>
             </div>
@@ -185,3 +119,93 @@
         }
     };
 </script>
+<style >
+
+    .clearfix:after{
+        content:".";
+        display:block;
+        height:0;
+        clear:both;
+        visibility:hidden
+    }
+
+    @media (min-width: 576px){
+        .mr-sm-2, .mx-sm-2 {
+            margin-right: 0!important;
+        }
+    }
+    .vue-header a {
+        color: inherit;
+    }
+
+    .vue-header .dev-version {
+        color: #2a88ff;
+        left: -15px;
+        padding: 5px;
+        position: relative;
+        top: 10px;
+    }
+
+    .vue-header .btn-group-toggle {
+        margin-left: 20px;
+    }
+
+    .vue-header .btn-group-toggle label {
+        padding: 0 10px;
+    }
+
+    .vue-header .visibility-hidden {
+        visibility: hidden;
+    }
+     .form-inline .search-input{
+        width: 300px;  
+        height: 31px;
+        font-size: inherit; padding: 1px;
+        border-bottom-right-radius: 0;
+        border-top-right-radius: 0;
+        float: left;
+    }
+
+    .btn-u {
+        /* background: #3498db; */
+        background: #6610f2;
+        border: 0;
+        color: #fff;
+        cursor: pointer;
+        white-space: nowrap;
+
+        height: 31px; 
+        width: 41px;
+        margin-left: -1px;
+        border-top-right-radius: 5px;
+        border-bottom-right-radius: 5px;
+    }
+
+    @media (min-width: 992px) {
+        .vue-header .navbar-nav>li>a {
+            border-bottom: 2px solid transparent;
+        }
+
+        .vue-header .navbar-nav>li>a:hover,
+        .vue-header .navbar-nav>li.active>a,
+        .vue-header .navbar-nav>li.show>a {
+            /* border-bottom-color: #3498db; */
+            border-bottom-color: #6610f2;
+        }
+
+        .vue-header.navbar.navbar-default .navbar-nav>li>a {
+            background-color: initial;
+        }
+    }
+
+    @media (max-width: 991px) {
+        .vue-header .form-inline {
+            align-items: center;
+            display: flex;
+        }
+
+        .vue-header .form-inline input {
+            
+        }
+    }
+</style>

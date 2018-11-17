@@ -1,6 +1,3 @@
-**/build/
-!/frontend/build
-**/out/
 
 .idea
 *.iml

@@ -20,7 +20,7 @@
                             </div>
                             <div class="last-block-trade">
                                 <span class="white-8">TRANSACTIONS</span>
-                                <span class="transiton-count">{{blocks[0].txnCnt}} <span class="transiton-tps"> ({{blocks[0].txnCnt/5}} TPS)</span> </span>
+                                <span class="transiton-count">{{blocks[0].txnCnt}}</span>
                             </div>
                         </div>
                     </div>
@@ -40,23 +40,23 @@
                             <span class="fa fa-th-large" aria-hidden=true></span>
                             Blocks
                         </div>
-                        <router-link class="btn btn-default pull-right" :to='fragApi + "/blocks"' role=button>View
+                        <router-link class="btn btn-default pull-right" v-bind:to='fragApi + "/blocks"' role=button>View
                             All
                         </router-link>
                     </div>
                     <ul class="blocks list">
                         <li class=li v-for="(o,index) in blocks" :key="index">
                             <div class=img>
-                                <router-link class=mt20 :to='fragApi + "/block/" + o.height'>block {{ o.height}}</router-link>
+                                <router-link class=mt20 v-bind:to='fragApi + "/block/" + o.height'>block {{ o.height}}</router-link>
                                 <div class=mt20>{{ timeConversion(msVmReady - o.timestamp) }} ago</div>
                             </div>
                             <div class=right>
                                 Mined By
-                                <router-link class="li-item-miner" :to='fragApi + "/address/" + o.miner.hash'>{{
+                                <router-link class=monospace v-bind:to='fragApi + "/address/" + o.miner.hash'>{{
                                     o.miner.hash }}
                                 </router-link>
                                 <div class=mt16>
-                                    <router-link :to='fragApi + "/txs?block=" + o.height'>
+                                    <router-link v-bind:to='fragApi + "/txs?block=" + o.height'>
                                         <b>{{ o.txnCnt }}</b> transactions
                                     </router-link>
                                 </div>
@@ -70,35 +70,46 @@
                             <span class="fa fa-list" aria-hidden=true></span>
                             Transaction
                         </div>
-                        <router-link class="btn btn-default pull-right" :to='fragApi + "/txs"' role=button>View
+                        <router-link class="btn btn-default pull-right" v-bind:to='fragApi + "/txs"' role=button>View
                             All
                         </router-link>
                     </div>
                     <ul class="list txs">
                         <li class="li" v-for="(o,index) in txs" :key="index">
-                            <img class="txs-img" src=/static/img/icon.png height=43 width=43 alt="">
-                            <div class="txs-content">
-                                <div class="txs-content-item"> 
-                                    <span class="txs-tit">TX#</span>
-                                    <span class="txs-item-content">
-                                        <router-link class=monospace :to='fragApi + "/tx/"+ o.hash' :title="o.hash.toUpperCase()">{{ o.hash.toUpperCase() }}</router-link>
-                                    </span>
-                                    <span class="txs-time">{{timeConversion(msVmReady - o.timestamp)}} ago</span>
-                                </div>
-                                <div class="txs-content-item">
-                                    <span class="txs-tit">From</span>
-                                    <span class="txs-hash">
-                                        <router-link class=monospace :to='fragApi + "/address/" + o.from.hash' :title="o.from.hash">{{ o.from.hash }}</router-link>
-                                    </span>
-                                    <span class="txs-tit">To</span>
-                                    <span class="txs-hash">
-                                        <router-link class=monospace :to='fragApi + "/address/" + o.to.hash' :title="o.to.hash">{{ o.to.hash}} </router-link>
-                                    </span>
-                                </div>
-                                <div class="txs-content-item">
-                                    <span class="txs-tit">Amount</span>
-                                    <span class="tes-ktch">{{ toWei(o.value) }}</span>
-                                </div>
+                            <img src=/static/img/icon.png height=43 width=43 alt="">
+                            <div>
+                                <table>
+                                    <tr>
+                                        <td>TX#</td>
+                                        <td>
+                                            <router-link class=monospace v-bind:to='fragApi + "/tx/"+ o.hash'
+                                            style="width: 50%;float: left">{{ o.hash.toUpperCase() }}
+                                            </router-link>
+
+                                             <span style="width: 30%;float: right;margin-right: 20px">{{timeConversion(msVmReady -
+                                                o.timestamp)}} ago</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>From</td>
+                                        <td>
+                                            <router-link class=monospace v-bind:to='fragApi + "/address/" + o.from.hash'
+                                                         style="float:left; width: 80px">{{ o.from.hash }}
+                                            </router-link>
+                                            <span style="float: left; margin-left: 10px;text-align: center">To</span>
+                                            <router-link class=monospace v-bind:to='fragApi + "/address/" + o.to.hash'
+                                                         style=" float:left; width: 80px;margin-left: 10px">{{ o.to.hash
+                                                }}
+                                            </router-link>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Amount</td>
+                                        <td>
+                                            <span style="margin-left: 5px">{{ toWei(o.value) }}</span>
+                                        </td>
+                                    </tr>
+                                </table>
                             </div>
                         </li>
                     </ul>
@@ -300,7 +311,6 @@
         display: block;
         overflow: hidden;
         text-overflow: ellipsis;
-
     }
 
     .vue-home .blocks li .monospace {
@@ -501,66 +511,5 @@
     .transiton-count{
         font-size: 16px;
     }
-    .vue-home .transiton-count .transiton-tps{
-        font-size: 12px;
-        font-weight: 300;
-        margin: 5px;
-    }
-
-    /* 这是新更新的样式 */
-    .vue-home .txs .li{
-        display: flex;
-
-    }
-    .vue-home .txs .li .txs-img{
-        width: 43px;
-        height: 43px;
-    }
-    .vue-home .li .txs-content{
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        box-sizing: border-box;
-        padding: 20px 0;
-        overflow: hidden;
-    }
-   .vue-home .li .txs-content  .txs-content-item{
-        display: flex;
-    }
-    .vue-home .txs-content-item .txs-tit{
-        display: inline-block;
-        height: 20px;
-        width: 50px;
-    }
-    .vue-home .txs-content-item  .txs-item-content,
-    .vue-home .txs-content-item  .txs-hash{
-        /* max-width: 300px; */
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        overflow: hidden;
-        flex: 1;
-        text-align: left;
-        margin-right: 20px;
-    }
-    .vue-home .txs-content-item  .txs-time{
-        width: 80px;
-        height: 20px;
-        text-align: right;
-        margin-right: 10px;
-    }
-    .vue-home .blocks .li{
-        display: flex;
-    }
-    .vue-home  .blocks .right{
-       flex: 1;
-       overflow: hidden;
-       margin-right: 20px;
-    }
-    .vue-home  .blocks .right .li-item-miner{
-        display: inline-block;
-        width: 100%;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        overflow: hidden;
-    }
+    
 </style>
