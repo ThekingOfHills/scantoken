@@ -56,7 +56,7 @@
             </li>
 
             <li class=page-item>
-                <div class="current page-link">
+                <div class="current page-link" style="padding: 0.5rem 5px; width: 179px;">
                     <span>Page</span>
                     <input v-bind:value=current v-on:keyup.enter="$emit('to', $event.target.value)"> of
                     <b>{{ total }}</b>

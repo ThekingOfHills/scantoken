@@ -157,7 +157,7 @@
     .vue-header .visibility-hidden {
         visibility: hidden;
     }
-     .form-inline .search-input{
+    .form-inline .search-input{
         width: 300px;  
         height: 31px;
         font-size: inherit; padding: 1px;
@@ -203,9 +203,13 @@
             align-items: center;
             display: flex;
         }
-
         .vue-header .form-inline input {
             
+        }
+    }
+    @media (max-width: 370px){
+        .form-inline .search-input{
+            width: 245px;
         }
     }
 </style>

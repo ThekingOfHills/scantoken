@@ -1,43 +1,47 @@
 <template>
     <!-- https://etherscan.io/blocks -->
-    <div class=vue-blocks>
-        <vue-bread v-bind:arr=breadcrumb title="Blocks"></vue-bread>
+    <!-- 这是block-list页面 -->
+    <div class="vue-blocks">
+        <vue-bread :arr=breadcrumb title="Blocks"></vue-bread>
 
         <div class="container mt20">
             <div class="align-items-center info-and-pagination row">
                 <div class=col>Showing Block (#{{ heightFrom }} to #{{ heightTo }}) out of {{ totalBlocks }} total blocks</div>
-                <vue-pagination class=col-auto v-bind:current=currentPage v-bind:total=totalPage v-on:first=onFirst v-on:last=onLast v-on:next=onNext v-on:prev=onPrev v-on:to=onTo></vue-pagination>
+                <vue-pagination class=col-auto :current=currentPage :total=totalPage :first=onFirst :last=onLast :next=onNext :prev=onPrev :to=onTo style="margin-bottom:5px;"></vue-pagination>
             </div>
-            <table class="mt20 table">
-                <tr>
-                    <th>Height</th>
-                    <th class=text-right>Age</th>
-                    <th>txn</th>
-                    <th>Mined</th>
-                    <th class=text-right>Gas Reward</th>
-                    <th class=text-right>GasLimit</th>
-                    <th class=text-right>Avg.GasPrice</th>
-                </tr>
-                <tr v-for="o in arr">
-                    <td>
-                        <router-link v-bind:to='fragApi + "/block/" + o.height'>{{ o.height }}</router-link>
-                    </td>
-                    <td class=time>
-                        <div class=text-right>{{ timeConversion( Date.now() - o.timestamp) }} ago</div>
-                        <div>{{ new Date(o.timestamp).toString() }} | {{ o.timestamp }}</div>
-                    </td>
-                    <td>
-                        <router-link v-bind:to='fragApi + "/txs?block=" + o.height'>{{ o.txnCnt }}</router-link>
-                    </td>
-                    <td class=monospace>
-                        <router-link v-bind:to='fragApi + "/address/" + o.miner.hash'>{{ o.miner.alias || o.miner.hash }}</router-link>
-                    </td>
-                    <td class=text-right>5 tch</td>
-                    <td class=text-right>{{ numberAddComma(o.gasLimit) }}</td>
-                    <td class=text-right>{{ toWei(o.avgGasPrice) }}</td>
-                </tr>
-            </table>
-            <vue-pagination v-bind:current=currentPage right=1 v-bind:total=totalPage v-on:first=onFirst v-on:last=onLast v-on:next=onNext v-on:prev=onPrev v-on:to=onTo></vue-pagination>
+            <div class="scroll">
+                <table class="mt20 table">
+                    <tr>
+                        <th>Height</th>
+                        <th class="text-right block-td-width">Age</th>
+                        <th>txn</th>
+                        <th>Mined</th>
+                        <th class="text-right "><span class="block-td-width">Gas Reward</span></th>
+                        <th class="text-right "><span class="block-td-width">GasLimit </span></th>
+                        <th class="text-right "> <span style="width:90px;display:inline-block;"> Avg.GasPrice</span></th>
+                    </tr>
+                    <tr v-for="(o,index) in arr" :key="index">
+                        <td>
+                            <router-link :to='fragApi + "/block/" + o.height'>{{ o.height }}</router-link>
+                        </td>
+                        <td class=time>
+                            <div class="text-right block-td-width">{{ timeConversion( Date.now() - o.timestamp) }} ago</div>
+                            <div>{{ new Date(o.timestamp).toString() }} | {{ o.timestamp }}</div>
+                        </td>
+                        <td>
+                            <router-link :to='fragApi + "/txs?block=" + o.height'>{{ o.txnCnt }}</router-link>
+                        </td>
+                        <td class=monospace>
+                            <router-link :to='fragApi + "/address/" + o.miner.hash' class="mined-width">{{ o.miner.alias || o.miner.hash }}</router-link>
+                        </td>
+                        <td class="text-right"><div class="block-td-width">5 tch</div> </td>
+                        <td class="text-right"><div class="block-td-width">{{ numberAddComma(o.gasLimit) }}</div> </td>
+                        <td class="text-right"><div class="block-td-width">{{ toWei(o.avgGasPrice) }}</div> </td>
+                    </tr>
+                </table>
+            </div>
+            
+            <vue-pagination :current=currentPage right=1 :total=totalPage :first=onFirst :last=onLast :next=onNext :prev=onPrev :to=onTo></vue-pagination>
         </div>
     </div>
 </template>
@@ -146,3 +150,26 @@
         }
     };
 </script>
+<style >
+    /* 这是新增加的样式 */
+    @media (max-width: 992px) {
+        .vue-blocks .scroll{
+            width: 100vw;
+            overflow-x: auto;
+        }
+    }
+     .vue-blocks .block-td-width{
+        display:inline-block;
+        width: 80px;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+    .vue-blocks .mined-width{
+        display: inline-block;
+        max-width: 300px;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+</style>

@@ -1,7 +1,8 @@
 <template>
     <!-- https://etherscan.io/accounts  -->
-    <div class=vue-accounts>
-        <vue-bread v-bind:arr=breadcrumb title="All Accounts"></vue-bread>
+    <!-- account-list -->
+    <div class="vue-accounts">
+        <vue-bread :arr=breadcrumb title="All Accounts"></vue-bread>
 
         <div class="container mt20">
             <div class="align-items-center info-and-pagination row">
@@ -10,29 +11,31 @@
                     <br>
                     <!-- <em>Displaying the last %2 records only</em> -->
                 </div>
-                <vue-pagination class=col-auto v-bind:current=currentPage v-bind:total=totalPage v-on:first=onFirst v-on:last=onLast v-on:next=onNext v-on:prev=onPrev v-on:to=onTo></vue-pagination>
+                <vue-pagination class=col-auto :current=currentPage :total=totalPage v-on:first=onFirst v-on:last=onLast v-on:next=onNext v-on:prev=onPrev v-on:to=onTo></vue-pagination>
             </div>
-
-            <table class="mt20 table">
-                <tr>
-                    <th>Rank</th>
-                    <th>Address</th>
-                    <th class=text-right>Balance</th>
-                    <th class=text-right>Percentage</th>
-                    <th class=text-right>TxCount</th>
-                </tr>
-                <tr v-for="o in arr">
-                    <td>{{ o.rank }}</td>
-                    <td class=monospace>
-                        <router-link v-bind:to='fragApi + "/address/" + o.hash'>{{ o.hash }}</router-link>
-                        <span v-show=o.alias> | {{ o.alias }}</span>
-                    </td>
-                    <td class=text-right>{{ toWei(o.balance) }}</td>
-                    <td class=text-right>{{ o.percentage }}%</td>
-                    <td class=text-right>{{ o.txCnt }}</td>
-                </tr>
-            </table>
-            <vue-pagination v-bind:current=currentPage right=1 v-bind:total=totalPage v-on:first=onFirst v-on:last=onLast v-on:next=onNext v-on:prev=onPrev v-on:to=onTo></vue-pagination>
+            <div class="scroll">
+                <table class="mt20 table">
+                    <tr>
+                        <th>Rank</th>
+                        <th>Address</th>
+                        <th class=text-right>Balance</th>
+                        <th class=text-right>Percentage</th>
+                        <th class=text-right>TxCount</th>
+                    </tr>
+                    <tr v-for="(o, index) in arr" :key="index">
+                        <td>{{ o.rank }}</td>
+                        <td class=monospace>
+                            <router-link class="account-width" :to='fragApi + "/address/" + o.hash'>{{ o.hash }}</router-link>
+                            <span v-show=o.alias> | {{ o.alias }}</span>
+                        </td>
+                        <td class=text-right>{{ toWei(o.balance) }}</td>
+                        <td class=text-right>{{ o.percentage }}%</td>
+                        <td class=text-right>{{ o.txCnt }}</td>
+                    </tr>
+                </table>
+            </div>
+            
+            <vue-pagination :current=currentPage right=1 :total=totalPage v-on:first=onFirst v-on:last=onLast v-on:next=onNext v-on:prev=onPrev v-on:to=onTo></vue-pagination>
         </div>
     </div>
 </template>
@@ -137,3 +140,19 @@
         }
     };
 </script>
+<style >
+    @media (max-width: 992px) {
+        .vue-accounts .scroll{
+            width: 100vw;
+            overflow-x: auto;
+        }
+    }
+    
+    .vue-accounts .account-width{
+        display: inline-block;
+        width: 300px;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+</style>

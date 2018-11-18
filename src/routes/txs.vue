@@ -1,6 +1,7 @@
 
 <template>
     <!-- https://etherscan.io/txs -->
+    <!-- transition-list -->
     <div class="vue-txs">
         <vue-bread  :arr=breadcrumb title=Transactions></vue-bread>
 
@@ -11,57 +12,57 @@
                     v-on:prev=onPrev v-on:to=onTo></vue-pagination>
             </div>
             <div class="scroll">
-                 <table class="mt20 table table-scroll">
-                <tr>
-                    <th>TxHash</th>
-                    <th>Block</th>
-                    <th class=text-right>Age</th>
-                    <th>From</th>
-                    <th></th>
-                    <th>To</th>
-                    <th class=text-right>Value</th>
-                    <th class=text-right>TxFee</th>
-                </tr>
+                <table class="mt20 table table-scroll">
+                    <tr>
+                        <th>TxHash</th>
+                        <th>Block</th>
+                        <th class="text-right ">Age</th>
+                        <th>From</th>
+                        <th></th>
+                        <th>To</th>
+                        <th class="text-right ">Value</th>
+                        <th class="text-right ">TxFee</th>
+                    </tr>
 
-                <tr v-for="(o,index) in arr" :key="index">
-                    <td v-if="o.status == 0" class=fail>
-                        <router-link  :to='fragApi + "/tx/" + o.hash'>{{ o.hash }}</router-link>
-                    </td>
-                    <td class=tdxxxwddd v-if="o.status != 0">
-                        <router-link  :to='fragApi + "/tx/" + o.hash'>{{ o.hash }}</router-link>
-                    </td>
+                    <tr v-for="(o,index) in arr" :key="index">
+                        <td v-if="o.status == 0" class=fail>
+                            <router-link  :to='fragApi + "/tx/" + o.hash'>{{ o.hash }}</router-link>
+                        </td>
+                        <td class=tdxxxwddd v-if="o.status != 0">
+                            <router-link  :to='fragApi + "/tx/" + o.hash'>{{ o.hash }}</router-link>
+                        </td>
 
-                    <td>
-                        <router-link  :to='fragApi + "/block/" + o.block.height'>{{ o.block.height }}</router-link>
-                    </td>
-                    <!--
-                    <td>
-                        <template v-if=txs.isPending>
-                            <span> pending </span>
-                        </template>
-                        <template v-else>
-                            <router-link v-if=o.block  :to='fragApi + "/block/" + o.block.height'>{{o.block.height}}</router-link>
-                        </template>
-                         <router-link  :to='fragApi + "/block/" + o.block.height'>{{ o.block.height }}</router-link>
-                    </td>
-                    -->
-                    <td class=time>
-                        <div class=text-right>{{ timeConversion(Date.now() - o.timestamp) }} ago</div>
-                        <div>{{ new Date(o.timestamp).toString() }} | {{ o.timestamp }}</div>
-                    </td>
-                    <td class=tdxxxwddd>
-                        <router-link  :to='fragApi + "/address/" + o.from.hash'>{{ o.from.hash }}</router-link>
-                    </td>
-                    <td>
-                        <span class="fa fa-arrow-right" aria-hidden=true></span>
-                    </td>
-                    <td class=tdxxxwddd>
-                        <router-link  :to='fragApi + "/address/" + o.to.hash'>{{ o.to.hash }}</router-link>
-                    </td>
-                    <td class=text-right>{{ easyNumber(o.value/1000000000000000000) }} Tch</td>
-                    <td class=text-right>{{ toWei(o.txFee) }}</td>
-                </tr>
-            </table>
+                        <td>
+                            <router-link  :to='fragApi + "/block/" + o.block.height'>{{ o.block.height }}</router-link>
+                        </td>
+                        <!--
+                        <td>
+                            <template v-if=txs.isPending>
+                                <span> pending </span>
+                            </template>
+                            <template v-else>
+                                <router-link v-if=o.block  :to='fragApi + "/block/" + o.block.height'>{{o.block.height}}</router-link>
+                            </template>
+                            <router-link  :to='fragApi + "/block/" + o.block.height'>{{ o.block.height }}</router-link>
+                        </td>
+                        -->
+                        <td class=time>
+                            <div class="text-right td-width">{{ timeConversion(Date.now() - o.timestamp) }} ago</div>
+                            <div>{{ new Date(o.timestamp).toString() }} | {{ o.timestamp }}</div>
+                        </td>
+                        <td class=tdxxxwddd>
+                            <router-link  :to='fragApi + "/address/" + o.from.hash'>{{ o.from.hash }}</router-link>
+                        </td>
+                        <td>
+                            <span class="fa fa-arrow-right" aria-hidden=true></span>
+                        </td>
+                        <td class=tdxxxwddd>
+                            <router-link  :to='fragApi + "/address/" + o.to.hash'>{{ o.to.hash }}</router-link>
+                        </td>
+                        <td class="text-right "> <span class="td-width">{{ easyNumber(o.value/1000000000000000000) }} Tch</span></td>
+                        <td class="text-right"><span class=" td-width">{{ toWei(o.txFee) }}</span></td>
+                    </tr>
+                </table>
             </div>
            
 
@@ -184,10 +185,18 @@
         overflow: hidden;
         text-overflow: ellipsis;
     }
-    .vue-txs .scroll {
-       width: 100%;
+    /* 这是新增加的样式 */
+    @media (max-width: 992px) {
+        .vue-txs .scroll{
+            width: 100vw;
+            overflow-x: auto;
+        }
     }
-    .vue-txs .scroll  .table-scroll{
-        overflow-x: scroll;
+    .td-width{
+        display: inline-block;
+        width: 80px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 </style>
