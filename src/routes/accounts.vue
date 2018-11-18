@@ -143,7 +143,7 @@
 <style >
     @media (max-width: 992px) {
         .vue-accounts .scroll{
-            width: 100vw;
+            width: 96vw;
             overflow-x: auto;
         }
     }

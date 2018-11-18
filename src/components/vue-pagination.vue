@@ -25,6 +25,9 @@
         top: .4em;
         width: 4em;
     }
+    .page-link{
+        padding: 0.5rem 0.5rem;
+    }
 </style>
 <template>
     <nav class=vue-pagination aria-label="Page navigation">
@@ -56,7 +59,7 @@
             </li>
 
             <li class=page-item>
-                <div class="current page-link" style="padding: 0.5rem 5px; width: 179px;">
+                <div class="current page-link" style="padding: 0.5rem 6px; width: 179px;">
                     <span>Page</span>
                     <input v-bind:value=current v-on:keyup.enter="$emit('to', $event.target.value)"> of
                     <b>{{ total }}</b>

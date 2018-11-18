@@ -355,7 +355,7 @@
      }
      @media (max-width: 992px) {
         .vue-address .scroll{
-            width: 100vw;
+            width: 96vw;
             overflow-x: auto;
         }
     }

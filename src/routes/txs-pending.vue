@@ -157,7 +157,7 @@
      /* 这是新增加的样式 */
     @media (max-width: 991px) {
         .vue-txs-pending .scroll{
-            width: 100vw;
+            width: 96vw;
             overflow-x: auto;
         }
     }
