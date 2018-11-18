@@ -10,7 +10,7 @@
                             <div class="logo-pc"></div>
                             <div class="tch-infoDetail marginb-20">
                                 <div class="estimate"><span>MARKET CAP OF  </span><span>$750 MILLION</span></div>
-                                <div class="current-price"><span class="price">$1</span> <span class="total-count"> <span class="white-8">count</span> <span >{{totalCount}}</span></span></div>
+                                <div class="current-price"><span class="price">$1</span> <span class="total-count"> <span class="white-8">count</span> <span >{{toTch(summerInfo.totalBalance)}}</span></span></div>
                             </div>
                         </div>
                         <div class="trade-box">
@@ -20,7 +20,7 @@
                             </div>
                             <div class="last-block-trade">
                                 <span class="white-8">TRANSACTIONS</span>
-                                <span class="transiton-count">{{blocks[0].txnCnt}} <span class="transiton-tps"> ({{blocks[0].txnCnt/5}} TPS)</span> </span>
+                                <span class="transiton-count">{{summerInfo.totalTransaction}} <span class="transiton-tps"> ({{summerInfo.transactionTps}} TPS)</span> </span>
                             </div>
                         </div>
                     </div>
@@ -78,7 +78,7 @@
                         <li class="li" v-for="(o,index) in txs" :key="index">
                             <img class="txs-img" src=/static/img/icon.png height=43 width=43 alt="">
                             <div class="txs-content">
-                                <div class="txs-content-item"> 
+                                <div class="txs-content-item">
                                     <span class="txs-tit">TX#</span>
                                     <span class="txs-item-content">
                                         <router-link class=monospace :to='fragApi + "/tx/"+ o.hash' :title="o.hash.toUpperCase()">{{ o.hash.toUpperCase() }}</router-link>
@@ -195,7 +195,12 @@
                 msVmReady: Date.now(),
                 txs: [],
                 timerB: null,
-                timerT: null
+                timerT: null,
+                summerInfo: {
+                    totalBalance:0,
+                    totalTransaction:0,
+                    transactionTps:0
+                }
             };
         },
         methods: {
@@ -211,6 +216,9 @@
             },
             toWei(n) {
                 return utility.toWei(n);
+            },
+            toTch(n){
+                return utility.toTch(n);
             }
         },
         mounted() {
@@ -243,6 +251,10 @@
                     this.chartConfig.series[0].data = arr;
                     require("highcharts").chart(div, this.chartConfig);
                 }
+            });
+
+            api.getSummerInfo("summerInfo",o=>{
+                this.summerInfo=o;
             });
         },
         distroyed: function () {
@@ -485,7 +497,7 @@
     .trade-box{
         display: flex;
         justify-content: space-between;
-        padding-top: 20px; 
+        padding-top: 20px;
     }
     .last-block-trade{
         font-size: 16px;

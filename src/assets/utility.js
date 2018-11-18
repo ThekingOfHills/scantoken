@@ -14,7 +14,8 @@ module.exports = {
     easyNumber:easyNumber,
     ua: ua,
     yyyymmdd: yyyymmdd,
-    getEthereumaiNetHost: getEthereumaiNetHost
+    getEthereumaiNetHost: getEthereumaiNetHost,
+    toTch: toTch
 };
 
 ////////////////////////////////////////////////////////////
@@ -168,6 +169,10 @@ function toWei(n) {
 
     n = n.toFixed();
     return (i == len ? numberAddComma(n) : n) + " " + arr[i];
+}
+
+function toTch(n) {
+    return  numberAddComma(n/1000000000000000000)  + " tch";
 }
 
 function easyNumber(num) {

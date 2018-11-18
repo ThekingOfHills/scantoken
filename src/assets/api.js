@@ -114,6 +114,20 @@ module.exports = {
         }
     },
 
+    getSummerInfo(t, done, fail) {
+        // wtf - webpack 对 if (typeof t == "object") 报异常
+        ajax1("summerInfo",null,d, fail);
+
+        function d(s, xhr) {
+            var o = JSON.parse(s);
+
+            if (o.code == 0)
+                done(o.data);
+            else if (typeof fail == "function")
+                fail(xhr);
+        }
+    },
+
 
 
 };
