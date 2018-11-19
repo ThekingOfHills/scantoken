@@ -39,14 +39,14 @@
             <!--    Transactions
                 ============================================================ -->
             <div class=tab v-show="tab == 1">
-                <div class="row title align-items-center">
-                    <div class="col  titlt-col">
+                <div class="row title align-items-center account-info">
+                    <div class="shink-1 titlt-col">
                         <span class="c333 fa fa-sort-amount-desc" aria-hidden=true></span>
                         Latest {{ txs.length }} txns from a total Of
                         <router-link :to='fragApi + "/txs?a=" + $route.params.id' >{{ obj.txCnt }} transactions </router-link>
                         <router-link :to='fragApi + "/txs?a=" + $route.params.id + "&isPending=true" '  class="title-inline" >( + {{ obj.pendingTxCnt == 0? 0 : obj.pendingTxCnt }} PendingTxn )</router-link>
                     </div>
-                    <div class="col-auto address-btn">
+                    <div class="shink-1  address-btn">
                         <span v-if="contractHash">
                             <router-link class="btn btn-link" :to='fragApi + "/tx/"+contractHash'>View Smart Contract</router-link>
                             |</span>
@@ -345,18 +345,19 @@
          .vue-address .address-btn .btn{
              padding: 0.375rem 0;
         }
-        .title-inline{
+        /* .title-inline{
            display:block;
            line-height:20px;
-        }
+        } */
         .align-items-center {
             display: block;
         }
-     }
-     @media (max-width: 992px) {
         .vue-address .scroll{
             width: 96vw;
             overflow-x: auto;
+        }
+        .shink-1{
+            margin-bottom: 5px;
         }
     }
      .vue-address .td-width{
@@ -370,5 +371,11 @@
        white-space: nowrap;
        text-overflow: ellipsis;
        overflow: hidden; 
+    }
+     @media (min-width: 992px) {
+        .vue-address  .account-info{
+            justify-content: space-between;
+            display: flex;
+        }
     }
 </style>

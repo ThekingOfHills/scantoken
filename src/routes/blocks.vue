@@ -5,9 +5,9 @@
         <vue-bread :arr=breadcrumb title="Blocks"></vue-bread>
 
         <div class="container mt20">
-            <div class="align-items-center info-and-pagination row">
-                <div class=col>Showing Block (#{{ heightFrom }} to #{{ heightTo }}) out of {{ totalBlocks }} total blocks</div>
-                <vue-pagination class=col-auto :current=currentPage :total=totalPage :first=onFirst :last=onLast :next=onNext :prev=onPrev :to=onTo style="margin-bottom:5px;"></vue-pagination>
+            <div class="align-items-center info-and-pagination account-info">
+                <div class="shink-1">Showing Block (#{{ heightFrom }} to #{{ heightTo }}) out of {{ totalBlocks }} total blocks</div>
+                <vue-pagination class="shink-1" :current=currentPage :total=totalPage :first=onFirst :last=onLast :next=onNext :prev=onPrev :to=onTo style="margin-bottom:5px;"></vue-pagination>
             </div>
             <div class="scroll">
                 <table class="mt20 table">
@@ -157,6 +157,9 @@
             width: 96vw;
             overflow-x: auto;
         }
+        .shink-1{
+            margin-bottom: 5px;
+        }
     }
      .vue-blocks .block-td-width{
         display:inline-block;
@@ -171,5 +174,11 @@
         white-space: nowrap;
         text-overflow: ellipsis;
         overflow: hidden;
+    }
+    @media (min-width: 992px) {
+        .vue-blocks .account-info{
+            justify-content: space-between;
+            display: flex;
+        }
     }
 </style>

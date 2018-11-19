@@ -5,13 +5,13 @@
         <vue-bread :arr=breadcrumb title="All Accounts"></vue-bread>
 
         <div class="container mt20">
-            <div class="align-items-center info-and-pagination row">
-                <div class=col>
+            <div class="align-items-center info-and-pagination account-info">
+                <div class=" shink-1">
                     A total of {{ totalAccounts }} accounts found
                     <br>
                     <!-- <em>Displaying the last %2 records only</em> -->
                 </div>
-                <vue-pagination class=col-auto :current=currentPage :total=totalPage v-on:first=onFirst v-on:last=onLast v-on:next=onNext v-on:prev=onPrev v-on:to=onTo></vue-pagination>
+                <vue-pagination class=" shink-1" :current=currentPage :total=totalPage v-on:first=onFirst v-on:last=onLast v-on:next=onNext v-on:prev=onPrev v-on:to=onTo></vue-pagination>
             </div>
             <div class="scroll">
                 <table class="mt20 table">
@@ -28,9 +28,9 @@
                             <router-link class="account-width" :to='fragApi + "/address/" + o.hash'>{{ o.hash }}</router-link>
                             <span v-show=o.alias> | {{ o.alias }}</span>
                         </td>
-                        <td class=text-right>{{ toWei(o.balance) }}</td>
-                        <td class=text-right>{{ o.percentage }}%</td>
-                        <td class=text-right>{{ o.txCnt }}</td>
+                        <td class=text-right> <span class="account-item-width">{{ toWei(o.balance) }}</span></td>
+                        <td class=text-right><span class="account-item-width">{{ o.percentage }}%</span> </td>
+                        <td class=text-right><span class="account-item-width">{{ o.txCnt }}</span> </td>
                     </tr>
                 </table>
             </div>
@@ -141,10 +141,19 @@
     };
 </script>
 <style >
-    @media (max-width: 992px) {
+    @media (max-width: 991px) {
         .vue-accounts .scroll{
             width: 96vw;
             overflow-x: auto;
+        }
+        .shink-1{
+            margin-bottom: 5px;
+        }
+    }
+    @media (min-width: 992px) {
+        .vue-accounts  .account-info{
+            justify-content: space-between;
+            display: flex;
         }
     }
     
@@ -155,4 +164,13 @@
         text-overflow: ellipsis;
         overflow: hidden;
     }
+    .vue-accounts .account-item-width{
+        display: inline-block;
+        max-width: 80px;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+    
+    
 </style>

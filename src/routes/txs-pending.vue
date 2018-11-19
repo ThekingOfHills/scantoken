@@ -3,9 +3,9 @@
     <div class=vue-txs-pending>
         <vue-bread v-bind:arr=breadcrumb title="Pending Transactions"></vue-bread>
         <div class="container mt20">
-            <div class="align-items-center info-and-pagination mt20 row">
-                <div class=col>A total of {{ totalTxs }} Pending txns found</div>
-                <vue-pagination class=col-auto v-bind:current=currentPage v-bind:total=totalPage v-on:first=onFirst v-on:last=onLast v-on:next=onNext v-on:prev=onPrev v-on:to=onTo></vue-pagination>
+            <div class="align-items-center info-and-pagination mt20 account-info">
+                <div class="hink-1">A total of {{ totalTxs }} Pending txns found</div>
+                <vue-pagination class="hink-1" v-bind:current=currentPage v-bind:total=totalPage v-on:first=onFirst v-on:last=onLast v-on:next=onNext v-on:prev=onPrev v-on:to=onTo></vue-pagination>
             </div>
             <div class="scroll">
                 <table class="mt20 table">
@@ -159,6 +159,15 @@
         .vue-txs-pending .scroll{
             width: 96vw;
             overflow-x: auto;
+        }
+        .shink-1{
+            margin-bottom: 5px;
+        }
+    }
+    @media (min-width: 992px) {
+        .vue-txs-pending  .account-info{
+            justify-content: space-between;
+            display: flex;
         }
     }
 </style>

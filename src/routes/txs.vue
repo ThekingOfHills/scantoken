@@ -6,9 +6,9 @@
         <vue-bread  :arr=breadcrumb title=Transactions></vue-bread>
 
         <div class="container mt20">
-            <div class="align-items-center info-and-pagination mt20 row">
-                <div class="col info">{{ totalTxs }} transactions found (showing the last {{ maxDisplayCnt }} records)</div>
-                <vue-pagination class=col-auto  :current=currentPage  :total=totalPage v-on:first=onFirst v-on:last=onLast v-on:next=onNext
+            <div class="align-items-center info-and-pagination mt20 account-info">
+                <div class="info shink-1">{{ totalTxs }} transactions found (showing the last {{ maxDisplayCnt }} records)</div>
+                <vue-pagination class="shink-1"  :current=currentPage  :total=totalPage v-on:first=onFirst v-on:last=onLast v-on:next=onNext
                     v-on:prev=onPrev v-on:to=onTo></vue-pagination>
             </div>
             <div class="scroll">
@@ -191,6 +191,9 @@
             width: 96vw;
             overflow-x: auto;
         }
+        .shink-1{
+            margin-bottom: 5px;
+        }
     }
     .td-width{
         display: inline-block;
@@ -198,5 +201,11 @@
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+    }
+     @media (min-width: 992px) {
+        .vue-txs  .account-info{
+            justify-content: space-between;
+            display: flex;
+        }
     }
 </style>
