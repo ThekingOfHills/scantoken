@@ -4,73 +4,61 @@
     <div class="vue-address" :triggerComputed="urlChange">
         <vue-bread :arr="breadcrumb" :title='"Token" + $route.params.id'></vue-bread>
         <div class=container >
-            <table class="c333 table overview">
-                <tr>
-                    <th style="width:50%">
-                        <span class=c777>TOKEN NAME: </span> <span > {{overview.name}}</span>
-                    </th>
-                    <th class=text-right> </th>
-                </tr>
-                <tr>
-                    <td>
+            <div class="overview">
+                <div class="view-list">
+                    <div class="view-item overview-name">
+                        <span >TOKEN NAME: </span> <span > {{overview.name}}</span>
+                    </div>
+                </div>
+                <div class="view-list">
+                    <div class="view-item">
                         <span class="view-name">Total totalSupply:</span>
                         <span>{{overview.totalSupply}}</span>
-                    </td>
-                    <td>
+                    </div>
+                    <div class="view-item">
                         <span class="view-name">Contract:</span>
-                        <span>{{overview.address}}</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
+                        <span class="view-contract">{{overview.address}}</span>
+                    </div>
+                </div>
+                <div class="view-list">
+                    <div class="view-item">
                         <span class="view-name">Price:</span>
-                        <span>{{overview.transfers}}</span>
-                    </td>
-                    <td>
+                        <span>${{overview.transfers}}</span>
+                    </div>
+                    <div class="view-item">
                         <span class="view-name">Decimals:</span>
                         <span>{{overview.totalSupply}}</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
+                    </div>
+                </div>
+                <div class="view-list">
+                    <div class="view-item">
                         <span class="view-name">Holders:</span>
                         <span>{{overview.holders}}</span>
-                    </td>
-                    <td style="max-width:50%">
-                        <div >
-                            <span class="view-name">filter:</span>
-                            <span>
-                                <el-input placeholder="请输入内容" v-model="filter" size="small" style="width:250px" >
-                                    <el-button slot="append" icon="el-icon-search"></el-button>
-                                </el-input>
-                            </span>
-                        </div>
-                    </td>
-                </tr>
-                
-            </table>
-
+                    </div>
+                    <div class="view-item">
+                        <span class="view-name view-peacial">filter:</span>
+                        <span>
+                            <el-input placeholder="请输入内容" v-model="filter" size="small" style="width:250px"  clearable>
+                                <el-button slot="append" icon="el-icon-search" style="display:inline-block;" @click="filterTransfer"></el-button>
+                            </el-input>
+                        </span>
+                    </div>
+                </div>
+            </div>
             <vue-tab-buttons class=mt20 :arr=tabButtons :tab.sync="tab"></vue-tab-buttons>
             <div class=mt20></div>
 
             <!--    Transactions -->
             <div class=tab v-show="tab == 1">
-                <!-- <div class="row title align-items-center account-info">
-                    <div class="shink-1 titlt-col">
+                <div class="table-instruction">
+                    <div> 
                         <span class="c333 fa fa-sort-amount-desc" aria-hidden=true></span>
-                        Latest {{ txs.length }} txns from a total Of
-                        <router-link :to='fragApi + "/txs?a=" + $route.params.id' >{{ obj.txCnt }} transactions </router-link>
-                        <router-link :to='fragApi + "/txs?a=" + $route.params.id + "&isPending=true" '  class="title-inline" >( + {{ obj.pendingTxCnt == 0? 0 : obj.pendingTxCnt }} PendingTxn )</router-link>
+                        A total of  {{transferList.length}} Txns found 
                     </div>
-                    <div class="shink-1  address-btn">
-                        <span v-if="contractHash">
-                            <router-link class="btn btn-link" :to='fragApi + "/tx/"+contractHash'>View Smart Contract</router-link>
-                            |</span>
-                        <router-link class="btn btn-link" :to='fragApi + "/txs?a=" + $route.params.id'>View All {{ obj.txCnt }} Txn</router-link>
-                        |
-                        <router-link class="btn btn-link" :to='fragApi + "/txs?a=" + $route.params.id + "&isPending=true" '>View All {{ obj.pendingTxCnt == 0? 0 : obj.pendingTxCnt }} PendingTxn</router-link>
+                    <div>
+                        <el-pagination  :pager-count="5" background :page-size="transferPage.pageSize" layout="prev, pager, next" :total="transferPage.total" @current-change="changeTransferPage"> </el-pagination>
                     </div>
-                </div> -->
+                </div>
                 <div class="scroll">
                     <table class="mt20 table">
                         <tr>
@@ -83,20 +71,25 @@
                         </tr>
 
                         <tr v-for="(o,index) in transferList" :key="index">
-                            <td >
-                                <router-link :to='fragApi + "/tx/" + o.txHash'>{{ o.txHash }}</router-link>
+                            <td class=tdxxxwddd>
+                                <router-link :to='fragApi + "/tx/" + o.txHash' :title="o.txHash">{{ o.txHash }}</router-link>
                             </td>
                             <td  >
                                 <span>{{o.timestamp}}</span>
                             </td>
                             <td class=tdxxxwddd>
-                                <router-link :to='fragApi + "/block/" + o.from'>{{ o.from }}</router-link>
+                                <span :title="o.from">{{ o.from }}</span>
+                                <!-- <router-link :to='fragApi + "/block/" + o.from'>{{ o.from }}</router-link> -->
                             </td>
-                            <td class=time>
-                               <span></span>
+                            <td >
+                                <span v-if="isFilter">
+                                    <span class="out-box" v-if="o.from == filter" > OUT</span>
+                                    <span class="in-box" v-else> IN</span>
+                                </span>
                             </td>
                             <td class="tdxxxwddd">
-                                <router-link :to='fragApi + "/tx/" + o.to' class="td-inline-width">{{ o.to }}</router-link>
+                                <span :title="o.to">{{ o.to }}</span>
+                                <!-- <router-link :to='fragApi + "/tx/" + o.to' class="td-inline-width">{{ o.to }}</router-link> -->
                             </td>
                             <td>
                                 {{o.quantity}}
@@ -107,25 +100,19 @@
                 
             </div>
 
+
             <!--    code
                 ============================================================ -->
             <div class=tab v-show="tab == 2">
-                <!-- <div class="row title align-items-center account-info">
-                    <div class="shink-1 titlt-col">
+                <div class="table-instruction">
+                    <div> 
                         <span class="c333 fa fa-sort-amount-desc" aria-hidden=true></span>
-                        Latest {{ txs.length }} txns from a total Of
-                        <router-link :to='fragApi + "/txs?a=" + $route.params.id' >{{ obj.txCnt }} transactions </router-link>
-                        <router-link :to='fragApi + "/txs?a=" + $route.params.id + "&isPending=true" '  class="title-inline" >( + {{ obj.pendingTxCnt == 0? 0 : obj.pendingTxCnt }} PendingTxn )</router-link>
+                        A total of  {{holderPage.total}} Holders
                     </div>
-                    <div class="shink-1  address-btn">
-                        <span v-if="contractHash">
-                            <router-link class="btn btn-link" :to='fragApi + "/tx/"+contractHash'>View Smart Contract</router-link>
-                            |</span>
-                        <router-link class="btn btn-link" :to='fragApi + "/txs?a=" + $route.params.id'>View All {{ obj.txCnt }} Txn</router-link>
-                        |
-                        <router-link class="btn btn-link" :to='fragApi + "/txs?a=" + $route.params.id + "&isPending=true" '>View All {{ obj.pendingTxCnt == 0? 0 : obj.pendingTxCnt }} PendingTxn</router-link>
+                    <div>
+                        <el-pagination  :pager-count="5" background :page-size="holderPage.pageSize" layout="prev, pager, next" :total="holderPage.total" @current-change="changeHolderPage"> </el-pagination>
                     </div>
-                </div> -->
+                </div>
                 <div class="scroll">
                     <table class="mt20 table">
                         <tr>
@@ -137,10 +124,12 @@
 
                         <tr v-for="(o,index) in balanceList" :key="index">
                             <td class=tdxxxwddd>
-                                <router-link :to='fragApi + "/tx/" + o.contract'>{{ o.contract }}</router-link>
+                                <span :title="o.contract">{{ o.contract }}</span>
+                                <!-- <router-link :to='fragApi + "/tx/" + o.contract'>{{ o.contract }}</router-link> -->
                             </td>
                             <td class=tdxxxwddd >
-                                <router-link :to='fragApi + "/tx/" + o.address'>{{ o.address }}</router-link>
+                                <span :title="o.address ">{{ o.address }}</span>
+                                <!-- <router-link :to='fragApi + "/tx/" + o.address'>{{ o.address }}</router-link> -->
                             </td>
                             <td>
                                 <span>{{o.quantity}}</span>
@@ -174,14 +163,24 @@
                 breadcrumb: [
                     { text: "Home", to: "/" },
                     { text: "Normal Accounts", to: "/accounts" },
-                    { text: "Address", to: "" }
+                    { text: "Token", to: "" }
                 ],
                 fragApi: this.$route.params.api ? "/" + this.$route.params.api : "",
-                minted: [],
                 obj: null,
                 tab: 0,
                 txs: [],
                 filter:'',
+                isFilter:false,
+                transferPage:{
+                    total: 0,
+                    pageNum:1,
+                    pageSize:10
+                },
+                holderPage:{
+                    total: 0,
+                    pageNum:1,
+                    pageSize:10
+                },
                 overview:{
                     address: "0xe2e8b2126c47eef2be111b3ed89aaae862097478",
                     name: "MeiToken",
@@ -237,21 +236,44 @@
                     this.$router.replace((this.$route.params.api ? "/" + this.$route.params.api : "") + "/404!" + this.$route.fullPath);
                 });
             },
-            getTokenTransfer(){
-                api.getTokenTransfer(this.$route.params.id, o => {
+            getTokenTransfer(pageNum = 1){
+                this.isFilter = false;
+                api.getTokenTransfer(this.$route.params.id,pageNum, o => {
                     console.log(o);
                     this.transferList = o.transferList;
+                    this.transferPage.total = o.total;
+                
                 }, xhr => {
                     this.$router.replace((this.$route.params.api ? "/" + this.$route.params.api : "") + "/404!" + this.$route.fullPath);
                 });
             },
-            getTokenHolders(){
-                api.getTokenHolders(this.$route.params.id, o => {
+            getTokenHolders(pageNum = 1){
+                api.getTokenHolders(this.$route.params.id,pageNum, o => {
                     this.balanceList = o.balanceList;
-                    console.log(o);
+                    this.holderPage.total = o.total;
                 }, xhr => {
                     this.$router.replace((this.$route.params.api ? "/" + this.$route.params.api : "") + "/404!" + this.$route.fullPath);
                 });
+            },
+            changeTransferPage(num){
+                if(this.isFilter){
+                    this.filterTransfer(num);
+                }else{
+                    this.getTokenTransfer(num);
+                }
+            },
+            changeHolderPage(num){
+                this.getTokenHolders(num);
+            },
+            filterTransfer(pageNum = 1){
+                this.isFilter = true;
+                api.getTokenTransferFilter(this.$route.params.id,this.filter,pageNum, o=> {
+                    this.transferList = o.transferList;
+                    this.transferPage.total = o.total;
+                },xhr => {
+                    this.$router.replace((this.$route.params.api ? "/" + this.$route.params.api : "") + "/404!" + this.$route.fullPath);
+                });
+                console.log(pageNum);
             },
             inOutClass(o) {
                 if (o.from.hash == this.$route.params.id)
@@ -348,12 +370,46 @@
     .vue-address  .overview{
         margin: 20px 0;
     }
-    .vue-address .view-name{
-        display: inline-block;
-        width: 150px;
-        text-align: left;
+    .vue-address .table-instruction{
+        color: #000;
+        font-size: 14px;
+        margin-top: 20px;
+        margin-left: 10px;
+        display: flex;
+        justify-content: space-between;
     }
-
+    .vue-address .table-instruction > div{
+        margin-bottom: 10px;
+    }
+    .vue-address .in-box{
+        display:inline-block;
+        padding: 3px 5px;
+        color: #fff;
+        background-color:#5cb85c;
+        border-radius: 3px;
+    }
+    .vue-address .out-box{
+        display:inline-block;
+        padding: 3px 5px;
+        color: #fff;
+        background-color:#e67e22;
+        border-radius: 3px;
+    }
+    .vue-address .over-view {
+        width: 50%;
+    }
+    .vue-address .view-list{
+        display: flex;
+    }
+    .vue-address .view-item{
+        flex: 1;
+        padding: 10px 0;
+        border-bottom: 1px solid #ddd;
+    }
+    .vue-address .overview-name{
+        color: #000;
+        font-size: 14px
+    }
      @media (max-width: 992px) {
          .vue-address .address-btn .btn{
              padding: 0.375rem 0;
@@ -366,11 +422,31 @@
             display: block;
         }
         .vue-address .scroll{
-            width: 96vw;
+            width: 94vw;
             overflow-x: auto;
         }
         .shink-1{
             margin-bottom: 5px;
+        }
+
+        /*  */
+        .vue-address .table-instruction{
+            display: block;
+            justify-content: space-between;
+             margin-left: 0px;
+        }
+        .vue-address .view-list{
+            display: block;
+        }
+        .view-peacial{
+            width: 35px;
+        }
+        .view-contract{
+            display: inline-block;
+            width: 290px;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
         }
     }
      .vue-address .td-width{
@@ -385,10 +461,16 @@
        text-overflow: ellipsis;
        overflow: hidden; 
     }
-     @media (min-width: 992px) {
+    @media (min-width: 992px) {
         .vue-address  .account-info{
             justify-content: space-between;
             display: flex;
         }
+        .vue-address .view-name{
+            display: inline-block;
+            width: 150px;
+            text-align: left;
+        }
     }
+    
 </style>

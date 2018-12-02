@@ -197,7 +197,7 @@
     /* 更新的样式 */
     .vue-tx .list-item{
         box-sizing: border-box;
-        width: 100vw;
+        width: calc(100vw - 30px);
         padding:10px 0;
         word-break: break-all; 
         word-wrap:break-word;
