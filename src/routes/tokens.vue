@@ -129,15 +129,15 @@
                 <div class="scroll">
                     <table class="mt20 table">
                         <tr>
-                            <th>Rank</th>
+                            <th>TxHash</th>
                             <th>Address</th>
                             <th>quantity</th>
                             <th>Percentage</th>
                         </tr>
 
                         <tr v-for="(o,index) in balanceList" :key="index">
-                            <td  >
-                                <span>{{index+1}}</span>
+                            <td class=tdxxxwddd>
+                                <router-link :to='fragApi + "/tx/" + o.contract'>{{ o.contract }}</router-link>
                             </td>
                             <td class=tdxxxwddd >
                                 <router-link :to='fragApi + "/tx/" + o.address'>{{ o.address }}</router-link>
@@ -221,26 +221,38 @@
             },
             urlChange() {
                 //监听路由变化 获取数据 
-                this.contractHash = "";
-                api.getTokenInfo(this.$route.params.id, o => {
-                // api.getAddress(this.$route.params.id, o => {
-                    // console.log(o);
-
-                    this.minted = o.mintedBlkList;
-                    this.obj = o;
-                    if (o.address.type == 1) {// this is a smart contract address
-                        // api.getTransactionByContract({ address: o.address.hash }, this.$route.params.api, (transaction) => {
-                        //     var transaction = JSON.parse(transaction)
-                        //     this.contractHash = transaction.result.hash
-                        // })
-                    }
-                    this.txs = o.txList;
-                }, xhr => {
-                    // this.$router.replace((this.$route.params.api ? "/" + this.$route.params.api : "") + "/404!" + this.$route.fullPath);
-                });
+                this.init();
             }
         },
         methods: {
+            init(){
+                this.getTokenView();
+                this.getTokenHolders();
+                this.getTokenTransfer();
+            },
+            getTokenView(){
+                api.getTokenInfo(this.$route.params.id, o => {
+                    this.overview = o;
+                }, xhr => {
+                    this.$router.replace((this.$route.params.api ? "/" + this.$route.params.api : "") + "/404!" + this.$route.fullPath);
+                });
+            },
+            getTokenTransfer(){
+                api.getTokenTransfer(this.$route.params.id, o => {
+                    console.log(o);
+                    this.transferList = o.transferList;
+                }, xhr => {
+                    this.$router.replace((this.$route.params.api ? "/" + this.$route.params.api : "") + "/404!" + this.$route.fullPath);
+                });
+            },
+            getTokenHolders(){
+                api.getTokenHolders(this.$route.params.id, o => {
+                    this.balanceList = o.balanceList;
+                    console.log(o);
+                }, xhr => {
+                    this.$router.replace((this.$route.params.api ? "/" + this.$route.params.api : "") + "/404!" + this.$route.fullPath);
+                });
+            },
             inOutClass(o) {
                 if (o.from.hash == this.$route.params.id)
                     return "out";

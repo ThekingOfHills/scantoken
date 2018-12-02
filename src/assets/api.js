@@ -53,7 +53,6 @@ module.exports = {
             ajax("http://159.138.5.32:8080/tokens/" + t, null, d, fail);
         }
             
-
         function d(s, xhr) {
             var o = JSON.parse(s);
 
@@ -63,11 +62,30 @@ module.exports = {
                 fail(xhr);
         }
     },
+    // get tokenTransfers info
     getTokenTransfer(id,done,fail){
-        
+        ajax(`http://159.138.5.32:8080/tokens/${id}/transfers?p=1` , null, d, fail);
+        function d(s, xhr) {
+            var o = JSON.parse(s);
+
+            if (o.code == 0)
+                done(o.data);
+            else if (typeof fail == "function")
+                fail(xhr);
+        }
     },
+    // get tokenHolders info
+    getTokenHolders(id,done,fail){
+        ajax(`http://159.138.5.32:8080/tokens/${id}/holders?p=1` , null, d, fail);
+        function d(s, xhr) {
+            var o = JSON.parse(s);
 
-
+            if (o.code == 0)
+                done(o.data);
+            else if (typeof fail == "function")
+                fail(xhr);
+        }
+    },
     // get api/block?
     // - p      - 页码, 默认 1
     // - m      - miner hash
