@@ -48,9 +48,9 @@ module.exports = {
     getTokenInfo(t, done, fail) {
         // wtf - webpack 对 if (typeof t == "object") 报异常
         if (eval('typeof t == "object"')){
-            ajax1("address", t, d, fail);
+            ajax("http://159.138.5.32:8080/tokens", t, d, fail);
         }else{
-            ajax1("address/" + t, null, d, fail);
+            ajax("http://159.138.5.32:8080/tokens/" + t, null, d, fail);
         }
             
 
@@ -160,6 +160,5 @@ module.exports = {
 
 function ajax1(action, args, done, fail) {
     var a = ajaxSplitAction(action);
-
     return ajax(a[0] + " " + sessionStorage.apiPrefix + a[1], args, done, fail);
 }

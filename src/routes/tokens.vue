@@ -55,7 +55,7 @@
 
             <!--    Transactions -->
             <div class=tab v-show="tab == 1">
-                <div class="row title align-items-center account-info">
+                <!-- <div class="row title align-items-center account-info">
                     <div class="shink-1 titlt-col">
                         <span class="c333 fa fa-sort-amount-desc" aria-hidden=true></span>
                         Latest {{ txs.length }} txns from a total Of
@@ -70,52 +70,36 @@
                         |
                         <router-link class="btn btn-link" :to='fragApi + "/txs?a=" + $route.params.id + "&isPending=true" '>View All {{ obj.pendingTxCnt == 0? 0 : obj.pendingTxCnt }} PendingTxn</router-link>
                     </div>
-                </div>
+                </div> -->
                 <div class="scroll">
                     <table class="mt20 table">
                         <tr>
                             <th>TxHash</th>
-                            <th>Age</th>
+                            <th>Timestamp</th>
                             <th>From</th>
                             <th></th>
                             <th>To</th>
                             <th>Quantity</th>
                         </tr>
 
-                        <tr v-for="(o,index) in txs" :key="index">
-                            <td v-if="o.status == 0" class=fail>
-                                <router-link :to='fragApi + "/tx/" + o.hash'>{{ o.hash }}</router-link>
+                        <tr v-for="(o,index) in transferList" :key="index">
+                            <td >
+                                <router-link :to='fragApi + "/tx/" + o.txHash'>{{ o.txHash }}</router-link>
                             </td>
-                            <td class=tdxxxwddd v-if="o.status != 0">
-                                <router-link :to='fragApi + "/tx/" + o.hash'>{{ o.hash }}</router-link>
+                            <td  >
+                                <span>{{o.timestamp}}</span>
                             </td>
-                            <td>
-                                <router-link v-if=o.block.height :to='fragApi + "/block/" + o.block.height'>{{ o.block.height }}</router-link>
-                                <i v-else>(pending)</i>
+                            <td class=tdxxxwddd>
+                                <router-link :to='fragApi + "/block/" + o.from'>{{ o.from }}</router-link>
                             </td>
                             <td class=time>
-                                <div class="td-width">{{ timeConversion(Date.now() - o.timestamp) }} ago</div>
-                                <div>{{ new Date(o.timestamp).toString() }} | {{ o.timestamp }}</div>
+                               <span></span>
                             </td>
                             <td class="tdxxxwddd">
-                                <div class="td-inline">
-                                    <vue-blockies :address='o.from.alias || o.from.hash'></vue-blockies>
-                                    <span v-if="o.from.hash == $route.params.id" class="td-inline-width">{{ o.from.alias || o.from.hash }}</span>
-                                    <router-link v-else :to='fragApi + "/address/" + o.from.hash' class="td-inline-width">{{ o.from.alias || o.from.hash }}</router-link>
-                                </div>
+                                <router-link :to='fragApi + "/tx/" + o.to' class="td-inline-width">{{ o.to }}</router-link>
                             </td>
-                            <td class=text-uppercase :class=inOutClass(o)></td>
-                            <td class=tdxxxwddd>
-                                <div class="td-inline">
-                                    <vue-blockies :address='o.to.alias || o.to.hash'></vue-blockies>
-                                    <span v-if="o.to.hash == $route.params.id" class="td-inline-width">{{ o.to.alias || o.to.hash }}</span>
-                                    <router-link v-else :to='fragApi + "/address/" + o.to.hash' class="td-inline-width">{{ o.to.alias || o.to.hash }}</router-link>
-                                </div>
-                            </td>
-                            <td> <div class="td-width">{{ easyNumber(o.value/1000000000000000000) }} Tch</div></td>
-                            <td class=txfee>
-                                <span v-if=o.block.height>{{ toWei(o.txFee) }}</span>
-                                <i v-else>(pending)</i>
+                            <td>
+                                {{o.quantity}}
                             </td>
                         </tr>
                     </table>
@@ -126,7 +110,7 @@
             <!--    code
                 ============================================================ -->
             <div class=tab v-show="tab == 2">
-                <div class="row title align-items-center account-info">
+                <!-- <div class="row title align-items-center account-info">
                     <div class="shink-1 titlt-col">
                         <span class="c333 fa fa-sort-amount-desc" aria-hidden=true></span>
                         Latest {{ txs.length }} txns from a total Of
@@ -141,7 +125,7 @@
                         |
                         <router-link class="btn btn-link" :to='fragApi + "/txs?a=" + $route.params.id + "&isPending=true" '>View All {{ obj.pendingTxCnt == 0? 0 : obj.pendingTxCnt }} PendingTxn</router-link>
                     </div>
-                </div>
+                </div> -->
                 <div class="scroll">
                     <table class="mt20 table">
                         <tr>
