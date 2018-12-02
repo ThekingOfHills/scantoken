@@ -23,10 +23,12 @@ module.exports = {
     // - <hash>
     getAddress(t, done, fail) {
         // wtf - webpack 对 if (typeof t == "object") 报异常
-        if (eval('typeof t == "object"'))
+        if (eval('typeof t == "object"')){
             ajax1("address", t, d, fail);
-        else
+        }else{
             ajax1("address/" + t, null, d, fail);
+        }
+            
 
         function d(s, xhr) {
             var o = JSON.parse(s);
@@ -41,6 +43,30 @@ module.exports = {
         var host =  getEthereumaiNetHost(netname)
         ajax('POST ' + host + '/user/getTransactionByContract', t, done, fail)
     },
+
+    // get api/token:id
+    getTokenInfo(t, done, fail) {
+        // wtf - webpack 对 if (typeof t == "object") 报异常
+        if (eval('typeof t == "object"')){
+            ajax1("address", t, d, fail);
+        }else{
+            ajax1("address/" + t, null, d, fail);
+        }
+            
+
+        function d(s, xhr) {
+            var o = JSON.parse(s);
+
+            if (o.code == 0)
+                done(o.data);
+            else if (typeof fail == "function")
+                fail(xhr);
+        }
+    },
+    getTokenTransfer(id,done,fail){
+        
+    },
+
 
     // get api/block?
     // - p      - 页码, 默认 1

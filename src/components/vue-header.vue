@@ -3,7 +3,7 @@
     <nav class="navbar navbar-expand-lg navbar-light vue-header" style="background-color: #FFFFFF;border-bottom: solid 2px #eee">
         <div class=container>
             <div>
-                <router-link v-bind:to="fragApi + '/'" class=navbar-brand>
+                <router-link :to="fragApi + '/'" class=navbar-brand>
                     <img src=/static/img/logo.png width=210 alt="">
                 </router-link>
             </div>
@@ -13,37 +13,37 @@
             </button>
             <div class="collapse navbar-collapse" id=navbarSupportedContent>
                 <ul class="navbar-nav mr-auto">
-                    <li class=nav-item v-bind:class="{ active: $route.meta.headerActive == 1 }">
-                        <router-link v-bind:to="fragApi + '/'" class=nav-link>HOME
+                    <li class=nav-item :class="{ active: $route.meta.headerActive == 1 }">
+                        <router-link :to="fragApi + '/'" class=nav-link>HOME
                             <span class=sr-only>(current)</span>
                         </router-link>
                     </li>
-                    <li class="dropdown nav-item" v-bind:class="{ active: $route.meta.headerActive == 2 }">
+                    <li class="dropdown nav-item" :class="{ active: $route.meta.headerActive == 2 }">
                         <a class="nav-link dropdown-toggle" href=# id=header-dropdown-blockchain role=button data-toggle=dropdown aria-haspopup=true aria-expanded=false>BLOCKCHAIN</a>
                         <div class=dropdown-menu aria-labelledby=header-dropdown-blockchain>
-                            <router-link class=dropdown-item v-bind:to="fragApi + '/txs'">View Txns</router-link>
-                            <router-link class=dropdown-item v-bind:to="fragApi + '/txs/pending'">View Pending Txns</router-link>
-                            <router-link class=dropdown-item v-bind:to="fragApi + '/blocks'">View Blocks</router-link>
+                            <router-link class=dropdown-item :to="fragApi + '/txs'">View Txns</router-link>
+                            <router-link class=dropdown-item :to="fragApi + '/txs/pending'">View Pending Txns</router-link>
+                            <router-link class=dropdown-item :to="fragApi + '/blocks'">View Blocks</router-link>
                         </div>
                     </li>
-                    <li class=nav-item v-bind:class="{ active: $route.meta.headerActive == 3 }">
-                        <router-link class=nav-link v-bind:to="fragApi + '/accounts'">ACCOUNT</router-link>
+                    <li class=nav-item :class="{ active: $route.meta.headerActive == 3 }">
+                        <router-link class=nav-link :to="fragApi + '/accounts'">ACCOUNT</router-link>
                     </li>
                     <!--
                     <li class="dropdown nav-item">
                         <a class="nav-link dropdown-toggle" href=# id=header-dropdown-misc role=button data-toggle=dropdown aria-haspopup=true aria-expanded=false>{{ MenuMisc }}</a>
                         <div class=dropdown-menu aria-labelledby=header-dropdown-misc>
                             <a v-for="(o, i) in apiPrefixes" class=nav-link href=# v-on:click.prevent=apiSwitch(i)>
-                                <span class="fa fa-check" v-bind:class="{ 'visibility-hidden': paramsApi != i }" aria-hidden=true></span>
+                                <span class="fa fa-check" :class="{ 'visibility-hidden': paramsApi != i }" aria-hidden=true></span>
                                 {{ o.name }}
                             </a>
                         </div>
                     </li>
                     -->
                 </ul>
-                <form class=form-inline v-on:submit.prevent=onSubmit>
+                <form class=form-inline v-on:submit.prevent="onSubmit">
                     <div style="display: inline; height: 31px;" class="clearfix">
-                     <input class="form-control mr-sm-2 search-input" v-model="search" maxlength="66" placeholder="Search by Address / Txhash / Block " autocomplete="off">
+                     <input class="form-control mr-sm-2 search-input" v-model="search" maxlength="66" placeholder="Search by Address / Txhash / Block / Token" autocomplete="off">
                      <button class="btn-u" type="submit" >GO</button>
                     </div>
                 </form>
@@ -78,13 +78,16 @@
                 api.getSearch(this.search, o => {
                     this.$root.showModalLoading = false;
                     this.search = "";
-
+                    // 判断了这里的type 然后在进行跳转的到这个数据的请求鹅具体位置
+                    console.log(o);
                     if (o.type == "block")
                         this.$router.push(this.fragApi + "/block/" + o.q);
                     else if (o.type == "address")
                         this.$router.push(this.fragApi + "/address/" + o.q);
                     else if (o.type == "tx")
                         this.$router.push(this.fragApi + "/tx/" + o.q);
+                    else if(o.type == 'token')
+                        this.$router.push(this.fragApi + "/tokens/" + o.q);
                     else {
                         this.$root.search = o.q;
                         this.$router.push((this.$route.params.api ? "/" + this.$route.params.api : "") + "/oops");

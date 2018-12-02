@@ -44,7 +44,7 @@
                             All
                         </router-link>
                     </div>
-                    <ul class="blocks list">
+                    <ul class="blocks list" >
                         <li class=li v-for="(o,index) in blocks" :key="index">
                             <div class=img>
                                 <router-link class=mt20 :to='fragApi + "/block/" + o.height'>block {{ o.height}}</router-link>

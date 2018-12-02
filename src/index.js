@@ -5,13 +5,18 @@ var Vue = require("vue").default,
     vAppConfig = require("@/assets/app-config"),
     vRouter = new VueRouter({ routes: require("@/assets/routes") });
 
+import ElementUI from 'element-ui';
+
 require("bootstrap");
 require("bootstrap/dist/css/bootstrap.min.css");
+import 'element-ui/lib/theme-chalk/index.css';
 require("font-awesome/css/font-awesome.min.css");
 require("./index.css");
 
+
 Vue.config.productionTip = false;
 Vue.use(VueRouter);
+Vue.use(ElementUI);
 vRouter.beforeEach(onBeforeEach);
 
 vApp = new Vue({

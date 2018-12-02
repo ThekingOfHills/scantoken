@@ -27,7 +27,7 @@ function ajax(action, args, done, fail) {
     var a = ajaxSplitAction(action), i,
         method = a[0], url = a[1],
         xhr = new XMLHttpRequest();
-
+// debugger
     if (method == "get") {
         url += url.indexOf("?") == -1 ? "?" : "&";
         for (i in args) args[i] === undefined || (url += encodeURIComponent(i) + "=" + encodeURIComponent(args[i]) + "&");

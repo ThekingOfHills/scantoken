@@ -33,17 +33,25 @@ module.exports = [{
 //     path: "/txs/internal/:id"
 // },
 {
+    component: require("@/routes/tokens").default,
+    meta: { headerActive: 3 },
+    path: "/:api?/tokens/:id"
+}, 
+{
     component: require("@/routes/txs-pending").default,
     meta: { headerActive: 2 },
     path: "/:api?/txs/pending"
-}, {
+},
+{
     component: require("@/routes/404").default,
     path: "/:api?/404"
-}, {
+}, 
+{
     component: require("@/routes/home").default,
     meta: { headerActive: 1 },
     path: "/:api?"
-}, {
+}, 
+{
     component: require("@/routes/404").default,
     name: "*",
     path: "*"
