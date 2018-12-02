@@ -23,11 +23,11 @@
                 <div class="view-list">
                     <div class="view-item">
                         <span class="view-name">Price:</span>
-                        <span>${{overview.transfers}}</span>
+                        <span>$1</span>
                     </div>
                     <div class="view-item">
                         <span class="view-name">Decimals:</span>
-                        <span>{{overview.totalSupply}}</span>
+                        <span>{{overview.decimals}}</span>
                     </div>
                 </div>
                 <div class="view-list">
@@ -75,11 +75,11 @@
                                 <router-link :to='fragApi + "/tx/" + o.txHash' :title="o.txHash">{{ o.txHash }}</router-link>
                             </td>
                             <td  >
-                                <span>{{o.timestamp}}</span>
+                                <span>{{ timeConversion(Date.now() - o.timestamp) }} ago</span>
                             </td>
                             <td class=tdxxxwddd>
-                                <span :title="o.from">{{ o.from }}</span>
-                                <!-- <router-link :to='fragApi + "/block/" + o.from'>{{ o.from }}</router-link> -->
+                                <!-- <span :title="o.from">{{ o.from }}</span> -->
+                                <a  @click="setFilter(o.from)">{{ o.from }}</a>
                             </td>
                             <td >
                                 <span v-if="isFilter">
@@ -88,8 +88,8 @@
                                 </span>
                             </td>
                             <td class="tdxxxwddd">
-                                <span :title="o.to">{{ o.to }}</span>
-                                <!-- <router-link :to='fragApi + "/tx/" + o.to' class="td-inline-width">{{ o.to }}</router-link> -->
+                                <!-- <span :title="o.to" @click="setFilter(o.to)">{{ o.to }}</span> -->
+                                <a  @click="setFilter(o.to)">{{ o.to }}</a>
                             </td>
                             <td>
                                 {{o.quantity}}
@@ -239,7 +239,7 @@
             getTokenTransfer(pageNum = 1){
                 this.isFilter = false;
                 api.getTokenTransfer(this.$route.params.id,pageNum, o => {
-                    console.log(o);
+
                     this.transferList = o.transferList;
                     this.transferPage.total = o.total;
                 
@@ -274,6 +274,10 @@
                     this.$router.replace((this.$route.params.api ? "/" + this.$route.params.api : "") + "/404!" + this.$route.fullPath);
                 });
                 console.log(pageNum);
+            },
+            setFilter(data){
+                this.filter = data;
+                this.filterTransfer();
             },
             inOutClass(o) {
                 if (o.from.hash == this.$route.params.id)
