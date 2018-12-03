@@ -63,7 +63,7 @@ module.exports = {
         }
     },
     // get tokenTransfers info
-    getTokenTransfer(id,p,done,fail){
+    getTokenTransfer(id,p=1,done,fail){
         ajax(`http://159.138.5.32:8080/tokens/${id}/transfers?p=${p}` , null, d, fail);
         function d(s, xhr) {
             var o = JSON.parse(s);
@@ -75,7 +75,7 @@ module.exports = {
         }
     },
     // get tokenHolders info
-    getTokenHolders(id,p,done,fail){
+    getTokenHolders(id,p=1,done,fail){
         ajax(`http://159.138.5.32:8080/tokens/${id}/holders?p=${p}` , null, d, fail);
         function d(s, xhr) {
             var o = JSON.parse(s);
@@ -88,7 +88,7 @@ module.exports = {
     },
     getTokenTransferFilter(id,filter,p=1,done,fail){
         console.log(p);
-        ajax(`http://159.138.5.32:8080/tokens/${id}/transfers?p=${1}&a=${filter}` , null, d, fail);
+        ajax(`http://159.138.5.32:8080/tokens/${id}/transfers?p=${p}&a=${filter}` , null, d, fail);
         // console.log(`http://159.138.5.32:8080/tokens/${id}/transfers?p=${p}&a=${filter}`);
       
         function d(s, xhr) {

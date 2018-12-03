@@ -7,7 +7,8 @@
         <div class="container mt20">
             <div class="align-items-center info-and-pagination account-info">
                 <div class="shink-1">Showing Block (#{{ heightFrom }} to #{{ heightTo }}) out of {{ totalBlocks }} total blocks</div>
-                <vue-pagination class="shink-1" :current=currentPage :total=totalPage :first=onFirst :last=onLast :next=onNext :prev=onPrev :to=onTo style="margin-bottom:5px;"></vue-pagination>
+                <vue-pagination class="shink-1"  :current=currentPage  :total=totalPage v-on:first=onFirst v-on:last=onLast v-on:next=onNext
+                    v-on:prev=onPrev v-on:to=onTo></vue-pagination>
             </div>
             <div class="scroll">
                 <table class="mt20 table">
@@ -116,10 +117,12 @@
                 });
             },
             onNext() {
+                console.log(this.currentPage);
                 this.$router.push({
                     path: this.$route.path,
                     query: { p: this.currentPage + 1 }
                 });
+                // this.$router.push({ path: this.$route.path, query });
             },
             onPrev() {
                 this.$router.push({

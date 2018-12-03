@@ -2,18 +2,18 @@
 <template>
     <!-- https://etherscan.io/token/0xB8c77482e45F1F44dE1745F52C74426C631bDD52-->
     <div class="vue-address" :triggerComputed="urlChange">
-        <vue-bread :arr="breadcrumb" :title='"Token" + $route.params.id'></vue-bread>
+        <vue-bread :arr="breadcrumb" :title='overview.name'></vue-bread>
         <div class=container >
             <div class="overview">
-                <div class="view-list">
+                <!-- <div class="view-list">
                     <div class="view-item overview-name">
                         <span >TOKEN NAME: </span> <span > {{overview.name}}</span>
                     </div>
-                </div>
+                </div> -->
                 <div class="view-list">
                     <div class="view-item">
-                        <span class="view-name">Total totalSupply:</span>
-                        <span>{{overview.totalSupply}}</span>
+                        <span class="view-name">Total Supply:</span>
+                        <span>{{overview.totalSupply}} ({{overview.symbol}})</span>
                     </div>
                     <div class="view-item">
                         <span class="view-name">Contract:</span>
@@ -38,7 +38,7 @@
                     <div class="view-item">
                         <span class="view-name view-peacial">filter:</span>
                         <span>
-                            <el-input placeholder="请输入内容" v-model="filter" size="small" style="width:250px"  clearable>
+                            <el-input placeholder="请输入内容" v-model="filter" size="small" style="width:250px"  clearable @change="changeFilterStatus">
                                 <el-button slot="append" icon="el-icon-search" style="display:inline-block;" @click="filterTransfer"></el-button>
                             </el-input>
                         </span>
@@ -53,7 +53,7 @@
                 <div class="table-instruction">
                     <div> 
                         <span class="c333 fa fa-sort-amount-desc" aria-hidden=true></span>
-                        A total of  {{transferList.length}} Txns found 
+                        A total of {{transferPage.total}} Txns found 
                     </div>
                     <div>
                         <el-pagination  :pager-count="5" background :page-size="transferPage.pageSize" layout="prev, pager, next" :total="transferPage.total" @current-change="changeTransferPage"> </el-pagination>
@@ -63,7 +63,7 @@
                     <table class="mt20 table">
                         <tr>
                             <th>TxHash</th>
-                            <th>Timestamp</th>
+                            <th>Age</th>
                             <th>From</th>
                             <th></th>
                             <th>To</th>
@@ -79,7 +79,7 @@
                             </td>
                             <td class=tdxxxwddd>
                                 <!-- <span :title="o.from">{{ o.from }}</span> -->
-                                <a  @click="setFilter(o.from)">{{ o.from }}</a>
+                                <span class="base-color"  @click="setFilter(o.from)">{{ o.from }}</span >
                             </td>
                             <td >
                                 <span v-if="isFilter">
@@ -89,7 +89,7 @@
                             </td>
                             <td class="tdxxxwddd">
                                 <!-- <span :title="o.to" @click="setFilter(o.to)">{{ o.to }}</span> -->
-                                <a  @click="setFilter(o.to)">{{ o.to }}</a>
+                                <span class="base-color"  @click="setFilter(o.to)">{{ o.to }}</span>
                             </td>
                             <td>
                                 {{o.quantity}}
@@ -107,7 +107,7 @@
                 <div class="table-instruction">
                     <div> 
                         <span class="c333 fa fa-sort-amount-desc" aria-hidden=true></span>
-                        A total of  {{holderPage.total}} Holders
+                         Top {{holderPage.total}} Holders 
                     </div>
                     <div>
                         <el-pagination  :pager-count="5" background :page-size="holderPage.pageSize" layout="prev, pager, next" :total="holderPage.total" @current-change="changeHolderPage"> </el-pagination>
@@ -116,18 +116,18 @@
                 <div class="scroll">
                     <table class="mt20 table">
                         <tr>
-                            <th>TxHash</th>
+                            <th>Rank</th>
                             <th>Address</th>
-                            <th>quantity</th>
+                            <th>Quantity</th>
                             <th>Percentage</th>
                         </tr>
 
                         <tr v-for="(o,index) in balanceList" :key="index">
-                            <td class=tdxxxwddd>
-                                <span :title="o.contract">{{ o.contract }}</span>
+                            <td >
+                                <span >{{ o.rank }}</span>
                                 <!-- <router-link :to='fragApi + "/tx/" + o.contract'>{{ o.contract }}</router-link> -->
                             </td>
-                            <td class=tdxxxwddd >
+                            <td  >
                                 <span :title="o.address ">{{ o.address }}</span>
                                 <!-- <router-link :to='fragApi + "/tx/" + o.address'>{{ o.address }}</router-link> -->
                             </td>
@@ -174,12 +174,12 @@
                 transferPage:{
                     total: 0,
                     pageNum:1,
-                    pageSize:10
+                    pageSize:25
                 },
                 holderPage:{
                     total: 0,
                     pageNum:1,
-                    pageSize:10
+                    pageSize:50
                 },
                 overview:{
                     address: "0xe2e8b2126c47eef2be111b3ed89aaae862097478",
@@ -209,7 +209,6 @@
         computed: {
             formatCode() {
                 var lang = prism.languages.javascript;
-
                 if (this.obj.contractCode) {
                     return prism.highlight(jsBeautify(JSON.parse(this.obj.contractCode).Source), lang);
                 }
@@ -232,6 +231,7 @@
             getTokenView(){
                 api.getTokenInfo(this.$route.params.id, o => {
                     this.overview = o;
+
                 }, xhr => {
                     this.$router.replace((this.$route.params.api ? "/" + this.$route.params.api : "") + "/404!" + this.$route.fullPath);
                 });
@@ -273,25 +273,16 @@
                 },xhr => {
                     this.$router.replace((this.$route.params.api ? "/" + this.$route.params.api : "") + "/404!" + this.$route.fullPath);
                 });
-                console.log(pageNum);
+            },
+            changeFilterStatus(){
+                if(!this.filter){
+                    this.isFilter = false;
+                    this.getTokenTransfer();
+                }
             },
             setFilter(data){
                 this.filter = data;
                 this.filterTransfer();
-            },
-            inOutClass(o) {
-                if (o.from.hash == this.$route.params.id)
-                    return "out";
-                else if (o.to.hash == this.$route.params.id)
-                    return "in";
-                else
-                    return "";
-            },
-            failClass(o) {
-                if (o.status == 0)
-                    return "!";
-                else
-                    return " ";
             },
             numberAddComma(n) {
                 return utility.numberAddComma(n);
@@ -312,6 +303,10 @@
     };
 </script>
 <style>
+    .base-color{
+       color: #5F1CC8;
+       cursor: pointer;
+    }
     .vue-address{
         min-height: calc(100% - 201px);
     }
