@@ -5,11 +5,6 @@
         <vue-bread :arr="breadcrumb" :title='overview.name'></vue-bread>
         <div class=container >
             <div class="overview">
-                <!-- <div class="view-list">
-                    <div class="view-item overview-name">
-                        <span >TOKEN NAME: </span> <span > {{overview.name}}</span>
-                    </div>
-                </div> -->
                 <div class="view-list">
                     <div class="view-item">
                         <span class="view-name">Total Supply:</span>
@@ -38,7 +33,7 @@
                     <div class="view-item">
                         <span class="view-name view-peacial">filter:</span>
                         <span>
-                            <el-input placeholder="请输入内容" v-model="filter" size="small" style="width:250px"  clearable @change="changeFilterStatus">
+                            <el-input placeholder="Enter Address/TxHash" v-model="filter" size="small" style="width:250px"  clearable @change="changeFilterStatus">
                                 <el-button slot="append" icon="el-icon-search" style="display:inline-block;" @click="filterTransfer"></el-button>
                             </el-input>
                         </span>
@@ -256,8 +251,9 @@
                 });
             },
             changeTransferPage(num){
+                this.transferPage.pageNum = num;
                 if(this.isFilter){
-                    this.filterTransfer(num);
+                    this.filterTransfer();
                 }else{
                     this.getTokenTransfer(num);
                 }
@@ -265,9 +261,9 @@
             changeHolderPage(num){
                 this.getTokenHolders(num);
             },
-            filterTransfer(pageNum = 1){
+            filterTransfer(){
                 this.isFilter = true;
-                api.getTokenTransferFilter(this.$route.params.id,this.filter,pageNum, o=> {
+                api.getTokenTransferFilter(this.$route.params.id,this.filter, this.transferPage.pageNum, o=> {
                     this.transferList = o.transferList;
                     this.transferPage.total = o.total;
                 },xhr => {

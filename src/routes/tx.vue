@@ -35,8 +35,9 @@
                 <div class="list-item" v-if="tx.transfers.length>0">
                     <h4 class="name">Tokens Transferd:</h4>
                     <div class="list-item-content">
-                        <span>From</span> <router-link :to='fragApi + "/address/" + tx.transfers[0].from'>{{ tx.transfers[0].from }}</router-link>
-                        <span>To</span> <router-link :to='fragApi + "/address/" + tx.transfers[0].to'>{{ tx.transfers[0].to }}</router-link>
+                        <span>From</span> <router-link class="width-item" :to='fragApi + "/address/" + tx.transfers[0].from'>{{ tx.transfers[0].from }}</router-link>
+                        <span>To</span> <router-link class="width-item"  :to='fragApi + "/address/" + tx.transfers[0].to'>{{ tx.transfers[0].to }}</router-link>
+                        <span>for {{ tx.transfers[0].quantity }}</span> <span class="base-color">{{ tx.transfers[0].symbol }}</span>
                     </div>
                 </div> 
                 <div class="list-item">
@@ -149,6 +150,7 @@
             urlChange() {
                 api.getTx(this.$route.params.id, o => {
                     this.tx = o;
+                    console.log(o)
                 }, xhr => {
                     this.$router.replace((this.$route.params.api ? "/" + this.$route.params.api : "") + "/404!" + this.$route.fullPath);
                 });
@@ -219,5 +221,10 @@
         padding-right: 15px;
         word-break: break-all; 
         word-wrap:break-word;
+    }
+    .vue-tx .width-item{}
+    .base-color{
+       color: #5F1CC8;
+       cursor: pointer;
     }
     </style>

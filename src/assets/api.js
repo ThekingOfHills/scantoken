@@ -86,9 +86,8 @@ module.exports = {
                 fail(xhr);
         }
     },
-    getTokenTransferFilter(id,filter,p=1,done,fail){
-        console.log(p);
-        ajax(`http://159.138.5.32:8080/tokens/${id}/transfers?p=${p}&a=${filter}` , null, d, fail);
+    getTokenTransferFilter(id,filter,pageNum=1,done,fail){
+        ajax(`http://159.138.5.32:8080/tokens/${id}/transfers?p=${pageNum}&a=${filter}` , null, d, fail);
         // console.log(`http://159.138.5.32:8080/tokens/${id}/transfers?p=${p}&a=${filter}`);
       
         function d(s, xhr) {
