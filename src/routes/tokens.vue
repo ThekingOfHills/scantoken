@@ -1,7 +1,7 @@
 
 <template>
     <!-- https://etherscan.io/token/0xB8c77482e45F1F44dE1745F52C74426C631bDD52-->
-    <div class="vue-address" :triggerComputed="urlChange">
+    <div class="vue-token" :triggerComputed="urlChange">
         <vue-bread :arr="breadcrumb" :title='overview.name'></vue-bread>
         <div class=container >
             <div class="overview">
@@ -74,8 +74,8 @@
                             <td class=tdxxxwddd>
                                 <router-link :to='fragApi + "/tx/" + o.txHash' :title="o.txHash">{{ o.txHash }}</router-link>
                             </td>
-                            <td  >
-                                <span>{{ timeConversion(Date.now() - o.timestamp) }} ago</span>
+                            <td class=time>
+                                <span class="width-time">{{ timeConversion(Date.now() - o.timestamp) }} ago</span>
                             </td>
                             <td class=tdxxxwddd>
                                 <!-- <span :title="o.from">{{ o.from }}</span> -->
@@ -307,69 +307,69 @@
        color: #5F1CC8;
        cursor: pointer;
     }
-    .vue-address{
+    .vue-token{
         min-height: calc(100% - 201px);
     }
-    .vue-address td.out {
+    .vue-token td.out {
         width: 50px;
     }
 
-    .vue-address td.in::before,
-    .vue-address td.out::before {
+    .vue-token td.in::before,
+    .vue-token td.out::before {
         border-radius: 4px;
         color: white;
         padding: 3px 5px;
     }
 
-    .vue-address td.in::before {
+    .vue-token td.in::before {
         background-color: var(--green);
         content: "in";
     }
 
-    .vue-address td.out::before {
+    .vue-token td.out::before {
         background-color: var(--orange);
         content: "out";
     }
 
-    .vue-address .container .table th {
+    .vue-token .container .table th {
         border-top: 0;
     }
 
-    .vue-address .container .title {
+    .vue-token .container .title {
         overflow: auto;
     }
 
-    .vue-address .txfee {
+    .vue-token .txfee {
         color: silver;
     }
 
-    .vue-address .tab a {
+    .vue-token .tab a {
         font-size: 13px;
     }
 
-    .vue-address .fail {
+    .vue-token .fail {
         background: url(../../static/img/warning_icon.png)no-repeat 0 10px;
         padding-left: 28px;
     }
 
-    .vue-address .fail a {
+    .vue-token .fail a {
         display: inline-block;
         max-width: 142px;
         overflow: hidden;
         text-overflow: ellipsis;
     }
-    .vue-address .tdxxxwddd{
+    .vue-token .tdxxxwddd{
       padding: .75rem 0.4rem;
     }
-    .vue-address .tdxxxwddd img{
+    .vue-token .tdxxxwddd img{
       margin-right: 5px;
     }
 
     /* 更新数据 */
-    .vue-address  .overview{
+    .vue-token  .overview{
         margin: 20px 0;
     }
-    .vue-address .table-instruction{
+    .vue-token .table-instruction{
         color: #000;
         font-size: 14px;
         margin-top: 20px;
@@ -377,40 +377,44 @@
         display: flex;
         justify-content: space-between;
     }
-    .vue-address .table-instruction > div{
+    .vue-token .table-instruction > div{
         margin-bottom: 10px;
     }
-    .vue-address .in-box{
+    .vue-token .in-box{
         display:inline-block;
         padding: 3px 5px;
         color: #fff;
         background-color:#5cb85c;
         border-radius: 3px;
     }
-    .vue-address .out-box{
+    .vue-token .out-box{
         display:inline-block;
         padding: 3px 5px;
         color: #fff;
         background-color:#e67e22;
         border-radius: 3px;
     }
-    .vue-address .over-view {
+    .vue-token .over-view {
         width: 50%;
     }
-    .vue-address .view-list{
+    .vue-token .view-list{
         display: flex;
     }
-    .vue-address .view-item{
+    .vue-token .view-item{
         flex: 1;
         padding: 10px 0;
         border-bottom: 1px solid #ddd;
     }
-    .vue-address .overview-name{
+    .vue-token .overview-name{
         color: #000;
         font-size: 14px
     }
+    .vue-token .width-time{
+        min-width: 80px;
+        display: inline-block;
+    }
      @media (max-width: 992px) {
-         .vue-address .address-btn .btn{
+         .vue-token .address-btn .btn{
              padding: 0.375rem 0;
         }
         /* .title-inline{
@@ -420,7 +424,7 @@
         .align-items-center {
             display: block;
         }
-        .vue-address .scroll{
+        .vue-token .scroll{
             width: 94vw;
             overflow-x: auto;
         }
@@ -429,12 +433,12 @@
         }
 
         /*  */
-        .vue-address .table-instruction{
+        .vue-token .table-instruction{
             display: block;
             justify-content: space-between;
              margin-left: 0px;
         }
-        .vue-address .view-list{
+        .vue-token .view-list{
             display: block;
         }
         .view-peacial{
@@ -448,28 +452,29 @@
             overflow: hidden;
         }
     }
-     .vue-address .td-width{
+     .vue-token .td-width{
          width: 80px;
     }
-    .vue-address .td-inline{
+    .vue-token .td-inline{
         display: flex;
     }
-    .vue-address .td-inline-width {
+    .vue-token .td-inline-width {
        width: 140px;
        white-space: nowrap;
        text-overflow: ellipsis;
        overflow: hidden; 
     }
     @media (min-width: 992px) {
-        .vue-address  .account-info{
+        .vue-token  .account-info{
             justify-content: space-between;
             display: flex;
         }
-        .vue-address .view-name{
+        .vue-token .view-name{
             display: inline-block;
             width: 150px;
             text-align: left;
         }
     }
+
     
 </style>
