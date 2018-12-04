@@ -16,7 +16,7 @@
                         <div class="trade-box">
                             <div class="last-block-trade">
                                 <span class="white-8">LAST BLOCK</span>
-                                <span class="last-count"> {{blocks[0].height}}</span>
+                                <span class="last-count"> {{firstBlockHeight}}</span>
                             </div>
                             <div class="last-block-trade">
                                 <span class="white-8">TRANSACTIONS</span>
@@ -123,6 +123,7 @@
         data() {
             return {
                 blocks: [],
+                firstBlockHeight: 0,
                 totalCount: 750000000,
                 chartConfig: {
                     // legend: {
@@ -224,7 +225,7 @@
         mounted() {
             this.timerB = setInterval(() => {
                  this.msVmReady = Date.now();
-                 api.getBlock({type: "latest"}, o => this.blocks = o);
+                 api.getBlock({type: "latest"}, o => {this.blocks = o;this.firstBlockHeight = this.blocks[0].height;});
             }, 1000);
 
              api.getTx({type: "latest"}, o => this.txs = o);
