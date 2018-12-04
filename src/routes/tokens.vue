@@ -304,7 +304,7 @@
        cursor: pointer;
     }
     .vue-token{
-        min-height: calc(100% - 201px);
+        /* height: calc(100% - 201px); */
     }
     .vue-token td.out {
         width: 50px;
