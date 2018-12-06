@@ -32,14 +32,7 @@
                     <h4 class="name">TimeStamp:</h4>
                     <div class="list-item-content">{{ timeConversion(Date.now() - tx.timestamp) }} ago ({{ new Date(tx.timestamp).toUTCString()}})</div>
                 </div>
-                <div class="list-item" v-if="tx.transfers.length>0">
-                    <h4 class="name">Tokens Transferd:</h4>
-                    <div class="list-item-content">
-                        <span>From</span> <router-link class="width-item" :to='fragApi + "/address/" + tx.transfers[0].from'>{{ tx.transfers[0].from }}</router-link>
-                        <span>To</span> <router-link class="width-item"  :to='fragApi + "/address/" + tx.transfers[0].to'>{{ tx.transfers[0].to }}</router-link>
-                        <span>for {{ tx.transfers[0].quantity }}</span> <span class="base-color">{{ tx.transfers[0].symbol }}</span>
-                    </div>
-                </div> 
+                
                 <div class="list-item">
                     <h4 class="name">From:</h4>
                     <div class="list-item-content">
@@ -50,9 +43,17 @@
                 <div class="list-item">
                     <h4 class="name">To:</h4>
                     <div class="list-item-content">
-                        <router-link v-if=tx.to v-bind:to='fragApi + "/address/" + tx.to.hash'>{{ tx.to.hash }}</router-link>
+                        <span>Contract </span><router-link v-if=tx.to v-bind:to='fragApi + "/address/" + tx.to.hash'>{{ tx.to.hash }}</router-link><span> ({{ tx.transfers[0].symbol }})</span>
                     </div>
                 </div>
+                <div class="list-item" v-if="tx.transfers.length>0">
+                    <h4 class="name">Tokens Transferd:</h4>
+                    <div class="list-item-content">
+                        <span>From</span> <router-link class="width-item" :to='fragApi + "/address/" + tx.transfers[0].from'>{{ tx.transfers[0].from }}</router-link>
+                        <span>To</span> <router-link class="width-item"  :to='fragApi + "/address/" + tx.transfers[0].to'>{{ tx.transfers[0].to }}</router-link>
+                        <span>for {{ tx.transfers[0].quantity }}</span> <span class="base-color">{{ tx.transfers[0].symbol }}</span>
+                    </div>
+                </div> 
                 <div class="list-item">
                     <h4 class="name">Value:</h4>
                     <div class="list-item-content">

@@ -80,7 +80,7 @@
                                 <i v-else>(pending)</i>
                             </td>
                             <td class=time>
-                                <div class="td-width">{{ timeConversion(Date.now() - o.timestamp) }} ago</div>
+                                <div class="td-width" >{{ timeConversion(Date.now() - o.timestamp) }} ago</div>
                                 <div>{{ new Date(o.timestamp).toString() }} | {{ o.timestamp }}</div>
                             </td>
                             <td class="tdxxxwddd">
@@ -95,10 +95,13 @@
                                 <div class="td-inline">
                                     <vue-blockies :address='o.to.alias || o.to.hash'></vue-blockies>
                                     <span v-if="o.to.hash == $route.params.id" class="td-inline-width">{{ o.to.alias || o.to.hash }}</span>
-                                    <router-link v-else :to='fragApi + "/address/" + o.to.hash' class="td-inline-width">{{ o.to.alias || o.to.hash }}</router-link>
+                                    <span v-else class="td-inline-width">
+                                        <router-link v-if="o.to.hash" :to='fragApi + "/address/" + o.to.hash' >{{ o.to.alias || o.to.hash }}</router-link>
+                                    </span>
+                                    
                                 </div>
                             </td>
-                            <td> <div class="td-width">{{ easyNumber(o.value/1000000000000000000) }} Tch</div></td>
+                            <td> <div class="td-width" :title="easyNumber(o.value/1000000000000000000)">{{ easyNumber(o.value/1000000000000000000) }} Tch</div></td>
                             <td class=txfee>
                                 <span v-if=o.block.height>{{ toWei(o.txFee) }}</span>
                                 <i v-else>(pending)</i>
@@ -361,12 +364,16 @@
         }
     }
      .vue-address .td-width{
-         width: 80px;
+        width: 80px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
     }
     .vue-address .td-inline{
         display: flex;
     }
     .vue-address .td-inline-width {
+        display: inline-block;
        width: 140px;
        white-space: nowrap;
        text-overflow: ellipsis;
