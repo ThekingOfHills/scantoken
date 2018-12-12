@@ -258,9 +258,11 @@
                 this.summerInfo=o;
             });
         },
-        distroyed: function () {
-        　　clearInterval(this.timerB);
-        　　clearInterval(this.timerT);
+        beforeDestroy() {
+            clearInterval(this.timerB);
+        　　 clearInterval(this.timerT);
+            this.timerB = null;
+            this.timerT = null;
         }
     };
 </script>

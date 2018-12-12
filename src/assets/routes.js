@@ -49,7 +49,7 @@ module.exports = [{
 {
     component: require("@/routes/home").default,
     meta: { headerActive: 1 },
-    path: "/:api?"
+    path: "/:api?/index"
 }, 
 {
     component: require("@/routes/404").default,

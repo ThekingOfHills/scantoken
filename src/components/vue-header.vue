@@ -14,7 +14,7 @@
             <div class="collapse navbar-collapse" id=navbarSupportedContent>
                 <ul class="navbar-nav mr-auto">
                     <li class=nav-item :class="{ active: $route.meta.headerActive == 1 }">
-                        <router-link :to="fragApi + '/'" class=nav-link>HOME
+                        <router-link :to="fragApi + '/index'" class=nav-link>HOME
                             <span class=sr-only>(current)</span>
                         </router-link>
                     </li>
