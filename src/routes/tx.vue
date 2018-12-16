@@ -36,14 +36,16 @@
                 <div class="list-item">
                     <h4 class="name">From:</h4>
                     <div class="list-item-content">
-
                         <router-link v-if=tx.from v-bind:to='fragApi + "/address/" + tx.from.hash'>{{ tx.from.hash }}</router-link>
                     </div>
                 </div>
-                <div class="list-item">
+                <div class="list-item" >
                     <h4 class="name">To:</h4>
-                    <div class="list-item-content">
+                    <div class="list-item-content" v-if="tx.transfers.length>0">
                         <span>Contract </span><router-link v-if=tx.to v-bind:to='fragApi + "/address/" + tx.to.hash'>{{ tx.to.hash }}</router-link><span> ({{ tx.transfers[0].symbol }})</span>
+                    </div>
+                    <div class="list-item-content" v-else>
+                        <router-link v-if=tx.to v-bind:to='fragApi + "/address/" + tx.to.hash'>{{ tx.to.hash }}</router-link>
                     </div>
                 </div>
                 <div class="list-item" v-if="tx.transfers.length>0">
