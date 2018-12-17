@@ -1,5 +1,9 @@
 
-module.exports = [{
+module.exports = [
+    {
+         path: '/', redirect: "/:api?/index"
+    },
+    {
     component: require("@/routes/address").default,
     meta: { headerActive: 3 },
     path: "/:api?/address/:id"

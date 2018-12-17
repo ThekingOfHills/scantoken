@@ -3,7 +3,7 @@
     <nav class="navbar navbar-expand-lg navbar-light vue-header" style="background-color: #FFFFFF;border-bottom: solid 2px #eee">
         <div class=container>
             <div>
-                <router-link :to="fragApi + '/'" class=navbar-brand>
+                <router-link :to="fragApi + '/index'" class=navbar-brand>
                     <img src=/static/img/logo.png width=210 alt="">
                 </router-link>
             </div>
